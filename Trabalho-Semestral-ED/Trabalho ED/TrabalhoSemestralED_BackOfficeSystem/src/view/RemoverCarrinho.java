@@ -1,11 +1,18 @@
 package view;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+
+
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -50,7 +57,7 @@ public class RemoverCarrinho extends BaseFrame {
 		lblInidiceProduto.setBounds(43, 109, 230, 27);
 		contentPane.add(lblInidiceProduto);
 
-		textFieldIndiceProduto = new JTextField();
+		textFieldIndiceProduto = createNumericTextField();
 		textFieldIndiceProduto.setToolTipText("DIGITE O INDICE PARA A REMOÇÃO DE UM ITEM DO CARRINHO");
 		textFieldIndiceProduto.setBounds(271, 109, 198, 26);
 		contentPane.add(textFieldIndiceProduto);
@@ -95,5 +102,21 @@ public class RemoverCarrinho extends BaseFrame {
 				dispose();
 			}
 		});
+	}
+	private JTextField createNumericTextField() {
+		JTextField textField = new JTextField();
+
+		textField.setDocument(new NumericDocument());
+		return textField;
+	}
+
+	private class NumericDocument extends PlainDocument {
+		@Override
+		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+			// Verifica se a string contém apenas dígitos
+			if (str != null && str.matches("\\d+")) {
+				super.insertString(offs, str, a);
+			}
+		}
 	}
 }
