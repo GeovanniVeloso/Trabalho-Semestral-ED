@@ -33,20 +33,6 @@ public class CadastroCNPJ extends BaseFrame {
 	private JTextField textFieldCEPCnpj;
 	private JTextField textFieldEmailCnpj;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CadastroCNPJ frame = new CadastroCNPJ();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public CadastroCNPJ() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

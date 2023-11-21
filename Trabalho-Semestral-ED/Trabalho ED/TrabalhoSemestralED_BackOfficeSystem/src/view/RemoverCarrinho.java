@@ -24,22 +24,10 @@ public class RemoverCarrinho extends BaseFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RemoverCarrinho frame = new RemoverCarrinho();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
-	 */
+	 public Carrinho(TelaInicial telaInicial) { */
 	public RemoverCarrinho() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +88,7 @@ public class RemoverCarrinho extends BaseFrame {
 		btnVoltarRemoverCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				Carrinho carrinho = new Carrinho();
+				Carrinho carrinho = new Carrinho(null);
 				carrinho.setVisible(true);
 
 				// Fecha o frame atual

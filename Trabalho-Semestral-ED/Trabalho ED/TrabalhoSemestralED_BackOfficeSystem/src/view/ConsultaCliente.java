@@ -26,28 +26,15 @@ import controller.ControleClientePJ;
 
 public class ConsultaCliente extends BaseFrame {
 
-	private JPanel contentPane;
+	
 	private JPanel contentPane_1;
-	private JTextField textField;
 	private JTextField textFieldCpf;
 	private JTextField textFieldCnpj;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ConsultaCliente frame = new ConsultaCliente();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
@@ -55,7 +42,7 @@ public class ConsultaCliente extends BaseFrame {
 	public ConsultaCliente() {
 		getContentPane().setLayout(null);
 
-		contentPane = new JPanel();
+		contentPane_1 = new JPanel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 690, 360);

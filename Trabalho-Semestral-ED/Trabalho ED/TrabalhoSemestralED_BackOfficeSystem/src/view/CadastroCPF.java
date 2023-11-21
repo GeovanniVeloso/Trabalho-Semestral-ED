@@ -31,19 +31,6 @@ public class CadastroCPF extends BaseFrame {
 	private JTextField textFieldComplementoCpf;
 	private JTextField textFieldCEP;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CadastroCPF frame = new CadastroCPF();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public CadastroCPF() {
 		getContentPane().setLayout(null);
