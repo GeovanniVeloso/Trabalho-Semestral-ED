@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -22,8 +23,7 @@ import javax.swing.text.PlainDocument;
 public class ExcluiProduto extends BaseFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldExcluirProduto;
 	/**
 	 * Launch the application.
 	 */
@@ -56,43 +56,40 @@ public class ExcluiProduto extends BaseFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("EXCLUSÃO DE PRODUTO");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(192, 11, 267, 31);
-		contentPane.add(lblNewLabel);
+		JLabel lblExclusaoProduto = new JLabel("EXCLUSÃO DE PRODUTO");
+		lblExclusaoProduto.setToolTipText("EXCLUSÃO DE PRODUTO");
+		lblExclusaoProduto.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblExclusaoProduto.setBounds(192, 23, 267, 31);
+		contentPane.add(lblExclusaoProduto);
 
-		JLabel lblNewLabel_1 = new JLabel("CODIGO DO PRODUTO  QUE DESEJA EXCLUIR :");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_1.setBounds(10, 106, 462, 20);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblCodigoProduto = new JLabel("CODIGO DO PRODUTO  QUE DESEJA EXCLUIR :");
+		lblCodigoProduto.setToolTipText("CODIGO DO PRODUTO  QUE DESEJA EXCLUIR ");
+		lblCodigoProduto.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblCodigoProduto.setBounds(10, 106, 462, 20);
+		contentPane.add(lblCodigoProduto);
 
-		textField = createNumericTextField();
-		textField.setBounds(448, 109, 144, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldExcluirProduto = createNumericTextField();
+		textFieldExcluirProduto.setToolTipText("DIGITE O CODIGO DO PRODUTO QUE DESEJA EXCLUIR");
+		textFieldExcluirProduto.setBounds(448, 109, 172, 20);
+		contentPane.add(textFieldExcluirProduto);
+		textFieldExcluirProduto.setColumns(10);
 		
 	
 		
 		JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVoltar.setToolTipText("VOLTAR");
+        btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnVoltar.setBounds(430, 285, 110, 30);
         contentPane.add(btnVoltar);
         
         JButton btnExcluir = new JButton("Excluir");
-        btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnExcluir.setToolTipText("EXCLUIR");
+		btnExcluir.setForeground(new Color(255, 255, 255));
+		btnExcluir.setBackground(new Color(245, 7, 7));
+        btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnExcluir.setBounds(550, 285, 110, 30);
         contentPane.add(btnExcluir);
-        
-	        
-	        JLabel lblNewLabel_2 = new JLabel("O RESULTADO DA EXCLUSÃO FOI :");
-	        lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-	        lblNewLabel_2.setBounds(10, 178, 335, 39);
-	        contentPane.add(lblNewLabel_2);
-	        
-	        textField_1 = new JTextField();
-	        textField_1.setBounds(323, 190, 136, 20);
-	        contentPane.add(textField_1);
-	        textField.setColumns(10);
+	   
 	
 	   btnVoltar.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
@@ -105,6 +102,18 @@ public class ExcluiProduto extends BaseFrame {
            }
        });
 
+	   btnExcluir.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+           	if(textFieldExcluirProduto.getText().isEmpty()) {
+           		JOptionPane.showMessageDialog(null, "Campo não preenchido", "Erro", JOptionPane.ERROR_MESSAGE);
+           	} else {
+           		JOptionPane.showMessageDialog(null, "Exclusao concluida", "SUCESSO", JOptionPane.PLAIN_MESSAGE);
+           	}
+           }
+       });
+	          
+	 
+	   
 }
 
     private JTextField createNumericTextField() {

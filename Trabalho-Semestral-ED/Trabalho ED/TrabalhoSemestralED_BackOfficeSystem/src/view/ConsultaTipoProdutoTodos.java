@@ -74,7 +74,7 @@ public class ConsultaTipoProdutoTodos extends BaseFrame {
 		JLabel lblResultadoTipoProdutoTodos = new JLabel("OS PRODUTOS SÃO :");
 		lblResultadoTipoProdutoTodos.setToolTipText("OS PRODUTOS SÃO ");
 		lblResultadoTipoProdutoTodos.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblResultadoTipoProdutoTodos.setBounds(34, 92, 191, 25);
+		lblResultadoTipoProdutoTodos.setBounds(34, 63, 200, 25);
 		contentPane.add(lblResultadoTipoProdutoTodos);
 		
 		JButton btnVoltarTipoProdutoTodos= new JButton("Voltar");
@@ -94,7 +94,7 @@ public class ConsultaTipoProdutoTodos extends BaseFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(228, 92, 436, 175);
+		scrollPane.setBounds(34, 92, 610, 175);
 		contentPane.add(scrollPane);
 		
 		JTextArea textAreaResultadoConsultaTipoProdutoTodos = new JTextArea();

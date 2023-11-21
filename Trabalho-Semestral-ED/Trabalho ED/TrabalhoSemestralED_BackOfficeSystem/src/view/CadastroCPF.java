@@ -60,7 +60,7 @@ public class CadastroCPF extends BaseFrame {
 		textFieldNome.setBounds(110, 48, 158, 26);
 		contentPane.add(textFieldNome);
 		textFieldNome.setColumns(10);
-
+		
 		AlphaNumericTextField textFieldLogradouroCpf = new AlphaNumericTextField();
 		textFieldLogradouroCpf.setToolTipText("DIGITE SEU LOGRADOURO");
 		textFieldLogradouroCpf.setBounds(164, 185, 140, 26);

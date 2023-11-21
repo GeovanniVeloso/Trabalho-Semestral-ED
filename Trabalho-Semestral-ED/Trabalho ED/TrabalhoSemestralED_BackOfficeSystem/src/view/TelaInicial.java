@@ -239,6 +239,16 @@ public class TelaInicial extends BaseFrame {
 			}
 		});
 
+		btnProdutoConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+				 ConsultaProdutojFrame.setVisible(true);
+
+	                // Fecha o frame atual, se necessário
+	                 setVisible(false);
+	                 dispose();
+			}
+		});
 
 		btnProdutoCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
