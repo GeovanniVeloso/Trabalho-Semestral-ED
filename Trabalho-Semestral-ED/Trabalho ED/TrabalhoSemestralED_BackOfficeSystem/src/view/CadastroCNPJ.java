@@ -114,7 +114,7 @@ public class CadastroCNPJ extends BaseFrame {
 
 		JLabel lblTelefoneCnpj = new JLabel("TELEFONE :");
 		lblTelefoneCnpj.setToolTipText("TELEFONE ");
-		lblTelefoneCnpj.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		lblTelefoneCnpj.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTelefoneCnpj.setBounds(21, 102, 107, 26);
 		contentPane.add(lblTelefoneCnpj);
 
@@ -188,7 +188,7 @@ public class CadastroCNPJ extends BaseFrame {
 		        textFieldEmailCnpj
 		    );
 	
-		/*BOTÕES A PARTIR DAQUI*/
+
 
 		btnCadastrarCnpj.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -205,7 +205,13 @@ public class CadastroCNPJ extends BaseFrame {
 		        	//Aciona a Classe de controle do Cliente
 		        	controleClientePJ.actionPerformed(e);
 		        	JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
-		            dispose();
+		        	// Cria uma instância da classe pfoupj e a torna visível
+	            	CadastroCNPJ clienteCnpjjFrame = new CadastroCNPJ();
+	            	clienteCnpjjFrame.setVisible(true);
+
+	                // Fecha o frame atual, se necessário
+	                 setVisible(false);
+	                 dispose();
 		        }
 		    }
 		});

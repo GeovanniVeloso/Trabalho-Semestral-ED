@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Trabalho-Semestral-ED/Trabalho ED/TrabalhoSemestralED_BackOfficeSystem/src"/>
+	<classpathentry kind="lib" path="Trabalho-Semestral-ED/Trabalho ED/TrabalhoSemestralED_BackOfficeSystem/lib/BibliotecaListaGenerica.jar"/>
+	<classpathentry kind="output" path="Trabalho-Semestral-ED/Trabalho ED/TrabalhoSemestralED_BackOfficeSystem/bin"/>
+</classpath>

@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -25,7 +24,7 @@ import javax.swing.text.PlainDocument;
 import controller.ControleClientePF;
 import controller.ControleClientePJ;
 
-public class ConsultaCliente extends BaseFrame{
+public class ConsultaCliente extends BaseFrame {
 
 	private JPanel contentPane;
 	private JPanel contentPane_1;
@@ -42,7 +41,7 @@ public class ConsultaCliente extends BaseFrame{
 				try {
 					ConsultaCliente frame = new ConsultaCliente();
 					frame.setVisible(true);
-					  frame.setResizable(false);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,116 +85,119 @@ public class ConsultaCliente extends BaseFrame{
 		contentPane_1.add(comboBox);
 		comboBox.setSelectedItem("CPF");
 
-		
-				JButton btnVoltarConCliente = new JButton("Voltar");
-				btnVoltarConCliente.setToolTipText("VOLTE A TELA ANTERIOR");
-		        btnVoltarConCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
-		        btnVoltarConCliente.setBounds(430, 285, 110, 30);
-		        contentPane_1.add(btnVoltarConCliente);
-		        
-		        JButton btnConsultarCliente = new JButton("Consultar");
-		        btnConsultarCliente.setBackground(new Color(0, 204, 255));
-		        btnConsultarCliente.setToolTipText("CADASTRAR O CLIENTE POR CPF");
-		        btnConsultarCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
-		        btnConsultarCliente.setBounds(550, 285, 114, 30);
-		        
-		        contentPane_1.add(btnConsultarCliente);
-		        
-		        textFieldCpf =   createNumericTextField();
-		        textFieldCpf.setToolTipText("CLIENTE POR CPF");
-		        textFieldCpf.setBounds(77, 150, 131, 20);
-		        contentPane_1.add(textFieldCpf);
-		        textFieldCpf.setColumns(10);
-		        
-		    	
-		        textFieldCnpj = createNumericTextField();
-		        textFieldCnpj.setToolTipText("CLIENTE POR CNPJ");
-		        textFieldCnpj.setBounds(77, 187, 171, 20);
-		        contentPane_1.add(textFieldCnpj);
-		        textFieldCnpj.setColumns(10);
-		        textFieldCnpj.setEnabled(false);
-		        
-		        JLabel lblCpf = new JLabel("CPF :");
-		        lblCpf.setToolTipText("CPF");
-		        lblCpf.setFont(new Font("Tahoma", Font.BOLD, 18));
-		        lblCpf.setBounds(10, 150, 96, 17);
-		        contentPane_1.add(lblCpf);
-		        
-		        JLabel lblCnpj = new JLabel("CNPJ :");
-		        lblCnpj.setToolTipText("CNPJ");
-		        lblCnpj.setFont(new Font("Tahoma", Font.BOLD, 18));
-		        lblCnpj.setBounds(10, 187, 96, 17);
-		        contentPane_1.add(lblCnpj);
-		        
-		        
-	   btnVoltarConCliente.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
-               // Cria uma instância da tela inicial (classe ED) e a torna visível
-        	   TelaInicial telaInicial = new TelaInicial();
-               telaInicial.setVisible(true);
+		JButton btnVoltarConCliente = new JButton("Voltar");
+		btnVoltarConCliente.setToolTipText("VOLTE A TELA ANTERIOR");
+		btnVoltarConCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnVoltarConCliente.setBounds(430, 285, 110, 30);
+		contentPane_1.add(btnVoltarConCliente);
 
-               // Fecha o frame atual
-               dispose();
-           }
-       });
-	   comboBox.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               String selectedItem = (String) comboBox.getSelectedItem();
+		JButton btnConsultarCliente = new JButton("Consultar");
+		btnConsultarCliente.setBackground(new Color(0, 204, 255));
+		btnConsultarCliente.setToolTipText("CADASTRAR O CLIENTE POR CPF");
+		btnConsultarCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnConsultarCliente.setBounds(550, 285, 114, 30);
 
-               if ("CPF".equals(selectedItem)) {
-                   textFieldCnpj.setEnabled(false);
-                   textFieldCpf.setEnabled(true);
-               } else if ("CNPJ".equals(selectedItem)) {
-                   textFieldCpf.setEnabled(false);
-                   textFieldCnpj.setEnabled(true);
-               }
-           }
-       });
-	   
-	   
-	   ControleClientePJ controleClientePJ = new ControleClientePJ(textFieldCnpj);
-	   ControleClientePF controleClientePF = new ControleClientePF(textFieldCpf);
-	   
-	//*BOTÕES*//
-	   btnConsultarCliente.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // Obtenha o item selecionado no combobox
-		        String selectedItem = (String) comboBox.getSelectedItem();
+		contentPane_1.add(btnConsultarCliente);
 
-		        // Verifique se os campos estão vazios
-		        if ((textFieldCpf.isEnabled() && textFieldCpf.getText().isEmpty()) ||
-		            (textFieldCnpj.isEnabled() && textFieldCnpj.getText().isEmpty())) {
-		            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos antes de consultar.");
-		            return; // Não continue com a consulta se algum campo estiver vazio
-		        }
+		textFieldCpf = createNumericTextField();
+		textFieldCpf.setToolTipText("CLIENTE POR CPF");
+		textFieldCpf.setBounds(77, 150, 131, 20);
+		contentPane_1.add(textFieldCpf);
+		textFieldCpf.setColumns(10);
 
-		        // Faça algo com o item selecionado
-		        if ("CPF".equals(selectedItem)) {
-		        	controleClientePF.actionPerformed(e);
-		            dispose();
-		        } else if ("CNPJ".equals(selectedItem)) {
-		            controleClientePJ.actionPerformed(e);
-		            dispose();
-		        }
-		    }
+		textFieldCnpj = createNumericTextField();
+		textFieldCnpj.setToolTipText("CLIENTE POR CNPJ");
+		textFieldCnpj.setBounds(77, 187, 171, 20);
+		contentPane_1.add(textFieldCnpj);
+		textFieldCnpj.setColumns(10);
+		textFieldCnpj.setEnabled(false);
+
+		JLabel lblCpf = new JLabel("CPF :");
+		lblCpf.setToolTipText("CPF");
+		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblCpf.setBounds(10, 150, 96, 17);
+		contentPane_1.add(lblCpf);
+
+		JLabel lblCnpj = new JLabel("CNPJ :");
+		lblCnpj.setToolTipText("CNPJ");
+		lblCnpj.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblCnpj.setBounds(10, 187, 96, 17);
+		contentPane_1.add(lblCnpj);
+
+		btnVoltarConCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Cria uma instância da tela inicial (classe ED) e a torna visível
+				TelaInicial telaInicial = new TelaInicial();
+				telaInicial.setVisible(true);
+
+				// Fecha o frame atual
+				dispose();
+			}
+		});
+		comboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedItem = (String) comboBox.getSelectedItem();
+
+				if ("CPF".equals(selectedItem)) {
+					textFieldCnpj.setEnabled(false);
+					textFieldCpf.setEnabled(true);
+				} else if ("CNPJ".equals(selectedItem)) {
+					textFieldCpf.setEnabled(false);
+					textFieldCnpj.setEnabled(true);
+				}
+			}
 		});
 
-}
+		ControleClientePJ controleClientePJ = new ControleClientePJ(textFieldCnpj);
+		ControleClientePF controleClientePF = new ControleClientePF(textFieldCpf);
 
-    private JTextField createNumericTextField() {
-    	 JTextField textField = new JTextField();
-    	   
-    	    textField.setDocument(new NumericDocument());
-    	    return textField;
-    }
-    private class NumericDocument extends PlainDocument {
-        @Override
-        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-            // Verifica se a string contém apenas dígitos
-            if (str != null && str.matches("\\d+")) {
-                super.insertString(offs, str, a);
-            }
-        }
-    }
+		// BOTÕES//
+		btnConsultarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Obtenha o item selecionado no combobox
+				String selectedItem = (String) comboBox.getSelectedItem();
+
+				// Verifique se os campos estão vazios
+				if ((textFieldCpf.isEnabled() && textFieldCpf.getText().isEmpty())
+						|| (textFieldCnpj.isEnabled() && textFieldCnpj.getText().isEmpty())) {
+					JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos antes de consultar.");
+					return; // Não continue com a consulta se algum campo estiver vazio
+				}
+
+				// Faça algo com o item selecionado
+				if ("CPF".equals(selectedItem)) {
+					controleClientePF.actionPerformed(e);
+					dispose();
+				} else if ("CNPJ".equals(selectedItem)) {
+					controleClientePJ.actionPerformed(e);
+					dispose();
+				}
+				ConsultaCliente conClientejFrame = new ConsultaCliente();
+				conClientejFrame.setVisible(true);
+
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
+		});
+
+	}
+
+	private JTextField createNumericTextField() {
+		JTextField textField = new JTextField();
+
+		textField.setDocument(new NumericDocument());
+		return textField;
+	}
+
+	private class NumericDocument extends PlainDocument {
+		@Override
+		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+			// Verifica se a string contém apenas dígitos
+			if (str != null && str.matches("\\d+")) {
+				super.insertString(offs, str, a);
+			}
+		}
+	}
 }

@@ -22,7 +22,7 @@ import javax.swing.text.PlainDocument;
 import controller.ControleClientePF;
 import controller.ControleClientePJ;
 
-public class ExcluiCliente extends BaseFrame{
+public class ExcluiCliente extends BaseFrame {
 
 	private JPanel contentPane;
 	private JPanel contentPane_1;
@@ -107,7 +107,7 @@ public class ExcluiCliente extends BaseFrame{
 		lblCnpj.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblCnpj.setBounds(10, 187, 96, 17);
 		contentPane_1.add(lblCnpj);
-		
+
 		JButton btnVoltarExcluirCliente = new JButton("Voltar");
 		btnVoltarExcluirCliente.setToolTipText("VOLTE A TELA ANTERIOR");
 		btnVoltarExcluirCliente.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -137,11 +137,11 @@ public class ExcluiCliente extends BaseFrame{
 			}
 		});
 
-		/*Classes Controller*/
+		/* Classes Controller */
 		ControleClientePJ controleClientePJ = new ControleClientePJ(textFieldCnpj);
 		ControleClientePF controleClientePF = new ControleClientePF(textFieldCpf);
-		
-		/*Inicio Dos Botões*/
+
+		/* Inicio Dos Botões */
 		btnExcluirCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) comboBox.getSelectedItem();
@@ -150,23 +150,29 @@ public class ExcluiCliente extends BaseFrame{
 				if ((textFieldCpf.isEnabled() && textFieldCpf.getText().isEmpty())
 						|| (textFieldCnpj.isEnabled() && textFieldCnpj.getText().isEmpty())) {
 					JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos antes de consultar.");
-					
+
 				} else {
 
 					// Faça algo com o item selecionado
 					if ("CPF".equals(selectedItem)) {
 						controleClientePF.actionPerformed(e);
 						dispose();
-						
+
 					} else if ("CNPJ".equals(selectedItem)) {
 						controleClientePJ.actionPerformed(e);
 						dispose();
 
 					}
+					ExcluiCliente excClientejFrame = new ExcluiCliente();
+					excClientejFrame.setVisible(true);
+
+					// Fecha o frame atual, se necessário
+					setVisible(false);
+					dispose();
 				}
 			}
 		});
-		
+
 		btnVoltarExcluirCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível

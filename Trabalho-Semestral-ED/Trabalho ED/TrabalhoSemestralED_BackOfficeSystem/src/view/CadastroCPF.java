@@ -19,7 +19,7 @@ import javax.swing.text.PlainDocument;
 
 import controller.ControleClientePF;
 
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 public class CadastroCPF extends BaseFrame {
 
 	private JPanel contentPane;
@@ -179,7 +179,13 @@ public class CadastroCPF extends BaseFrame {
 				} else {
 					controleClientePF.actionPerformed(e);
 					JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
-					dispose();
+					// Cria uma instância da classe pfoupj e a torna visível
+	            	CadastroCPF clienteCpfjFrame = new CadastroCPF();
+	            	clienteCpfjFrame.setVisible(true);
+
+	                // Fecha o frame atual, se necessário
+	                 setVisible(false);
+	                 dispose();
 				}
 			}
 		});
