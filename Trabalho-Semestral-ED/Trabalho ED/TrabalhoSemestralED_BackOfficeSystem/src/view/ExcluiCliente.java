@@ -110,7 +110,7 @@ public class ExcluiCliente extends BaseFrame {
 
 		JButton btnVoltarExcluirCliente = new JButton("Voltar");
 		btnVoltarExcluirCliente.setToolTipText("VOLTE A TELA ANTERIOR");
-		btnVoltarExcluirCliente.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVoltarExcluirCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVoltarExcluirCliente.setBounds(430, 285, 110, 30);
 		contentPane_1.add(btnVoltarExcluirCliente);
 
@@ -118,7 +118,7 @@ public class ExcluiCliente extends BaseFrame {
 		btnExcluirCliente.setForeground(new Color(255, 255, 255));
 		btnExcluirCliente.setBackground(new Color(245, 7, 7));
 		btnExcluirCliente.setToolTipText("EXCLUIR CLIENTE");
-		btnExcluirCliente.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnExcluirCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnExcluirCliente.setBounds(550, 285, 110, 30);
 		contentPane_1.add(btnExcluirCliente);
 

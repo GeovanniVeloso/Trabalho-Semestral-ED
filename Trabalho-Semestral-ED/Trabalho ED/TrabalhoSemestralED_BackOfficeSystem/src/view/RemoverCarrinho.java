@@ -1,0 +1,111 @@
+package view;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+public class RemoverCarrinho extends BaseFrame {
+
+	private JPanel contentPane;
+	private JTextField textFieldIndiceProduto;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RemoverCarrinho frame = new RemoverCarrinho();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public RemoverCarrinho() {
+		getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 690, 360);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblRemoverItensCarrinho = new JLabel("REMOVER ITENS DO CARRINHO");
+		lblRemoverItensCarrinho.setToolTipText("REMOVER ITENS DO CARRINHO");
+		lblRemoverItensCarrinho.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblRemoverItensCarrinho.setBounds(153, 29, 386, 27);
+		contentPane.add(lblRemoverItensCarrinho);
+
+		JLabel lblInidiceProduto = new JLabel("ÍNDICE DO PRODUTO :");
+		lblInidiceProduto.setToolTipText("INDICE DO PRODUTO ");
+		lblInidiceProduto.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblInidiceProduto.setBounds(43, 109, 230, 27);
+		contentPane.add(lblInidiceProduto);
+
+		textFieldIndiceProduto = new JTextField();
+		textFieldIndiceProduto.setToolTipText("DIGITE O INDICE PARA A REMOÇÃO DE UM ITEM DO CARRINHO");
+		textFieldIndiceProduto.setBounds(271, 109, 198, 26);
+		contentPane.add(textFieldIndiceProduto);
+		textFieldIndiceProduto.setColumns(10);
+
+		JButton btnVoltarRemoverCarrinho = new JButton("Voltar");
+		btnVoltarRemoverCarrinho.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnVoltarRemoverCarrinho.setToolTipText("VOLTAR");
+		btnVoltarRemoverCarrinho.setBounds(450, 287, 89, 23);
+		contentPane.add(btnVoltarRemoverCarrinho);
+
+		JButton btnRemoveRemoverCarrinho = new JButton("Remover");
+		btnRemoveRemoverCarrinho.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnRemoveRemoverCarrinho.setForeground(new Color(255, 255, 255));
+		btnRemoveRemoverCarrinho.setBackground(new Color(245, 7, 7));
+		btnRemoveRemoverCarrinho.setToolTipText("REMOVER ITEM");
+		btnRemoveRemoverCarrinho.setBounds(549, 287, 115, 23);
+		contentPane.add(btnRemoveRemoverCarrinho);
+
+		btnRemoveRemoverCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textFieldIndiceProduto.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
+
+				} else {
+
+					JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+
+		});
+
+		btnVoltarRemoverCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Cria uma instância da tela inicial (classe ED) e a torna visível
+				Carrinho carrinho = new Carrinho();
+				carrinho.setVisible(true);
+
+				// Fecha o frame atual
+				dispose();
+			}
+		});
+	}
+}

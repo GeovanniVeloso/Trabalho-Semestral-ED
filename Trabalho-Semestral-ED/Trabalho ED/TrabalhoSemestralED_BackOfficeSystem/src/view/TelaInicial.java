@@ -183,8 +183,13 @@ public class TelaInicial extends BaseFrame {
 						// ActionListener para o botão COMPRA
 						btnCarrinho.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								//CompraClienteFrame CompraCliente = new CompraClienteFrame(TelaInicial.this, true);
-								//CompraCliente.setVisible(true);
+								Carrinho CarrinhojFrame = new Carrinho();
+				            	CarrinhojFrame.setVisible(true);
+				                
+
+				                // Fecha o frame atual, se necessário
+				                 setVisible(false);
+				                 dispose();
 							}
 						});
 						

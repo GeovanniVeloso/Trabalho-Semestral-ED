@@ -167,14 +167,14 @@ public class CadastroCNPJ extends BaseFrame {
 		contentPane.add(lblEmailCnpj);
 		
 		JButton btnVoltarCnpj = new JButton("Voltar");
-		btnVoltarCnpj.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnVoltarCnpj.setBounds(430, 285, 110, 30);
+		btnVoltarCnpj.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnVoltarCnpj.setBounds(423, 285, 110, 30);
 		contentPane.add(btnVoltarCnpj);
 		
 		JButton btnCadastrarCnpj = new JButton("Cadastrar");
 		btnCadastrarCnpj.setBackground(new Color(0, 250, 154));
-		btnCadastrarCnpj.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnCadastrarCnpj.setBounds(550, 285, 110, 30);
+		btnCadastrarCnpj.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnCadastrarCnpj.setBounds(543, 285, 121, 30);
 		contentPane.add(btnCadastrarCnpj);
 		
 		ControleClientePJ controleClientePJ = new ControleClientePJ(
