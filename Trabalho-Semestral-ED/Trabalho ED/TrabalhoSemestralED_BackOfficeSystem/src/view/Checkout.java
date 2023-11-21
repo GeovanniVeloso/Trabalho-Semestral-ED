@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class Checkout extends BaseFrame {
 
@@ -53,6 +54,8 @@ public class Checkout extends BaseFrame {
 		contentPane.add(lblCompra);
 		
 		JScrollPane scrollPaneCheckout = new JScrollPane();
+		scrollPaneCheckout.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPaneCheckout.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
 		scrollPaneCheckout.setBounds(274, 83, 375, 190);
 		contentPane.add(scrollPaneCheckout);
