@@ -1,12 +1,12 @@
 package view;
-
-
+ 
+ 
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+ 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,25 +18,29 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
-
+import controller.ControleProduto;
+import view.ConsultaProduto.AlphaNumericTextField;
+import view.ConsultaProduto.AlphaNumericTextField.AlphaNumericDocument;
+ 
+ 
+ 
 public class ExcluiProduto extends BaseFrame {
-
+ 
 	private JPanel contentPane;
 	private JTextField textFieldExcluirProduto;
 	/**
 	 * Launch the application.
 	 */
-
-
+ 
+ 
 	/**
 	 * Create the frame.
 	 */
 	public ExcluiProduto() {
 		getContentPane().setLayout(null);
-
+ 
 		contentPane = new JPanel();
-
+ 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 690, 360);
 		contentPane = new JPanel();
@@ -50,21 +54,31 @@ public class ExcluiProduto extends BaseFrame {
 		lblExclusaoProduto.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblExclusaoProduto.setBounds(192, 23, 267, 31);
 		contentPane.add(lblExclusaoProduto);
-
+ 
 		JLabel lblCodigoProduto = new JLabel("CODIGO DO PRODUTO  QUE DESEJA EXCLUIR :");
 		lblCodigoProduto.setToolTipText("CODIGO DO PRODUTO  QUE DESEJA EXCLUIR ");
 		lblCodigoProduto.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblCodigoProduto.setBounds(10, 106, 462, 20);
 		contentPane.add(lblCodigoProduto);
-
+ 
 		textFieldExcluirProduto = createNumericTextField();
 		textFieldExcluirProduto.setToolTipText("DIGITE O CODIGO DO PRODUTO QUE DESEJA EXCLUIR");
-		textFieldExcluirProduto.setBounds(448, 109, 172, 20);
+		textFieldExcluirProduto.setBounds(448, 108, 172, 20);
 		contentPane.add(textFieldExcluirProduto);
 		textFieldExcluirProduto.setColumns(10);
 		
-	
+        JLabel lblTipoProduto = new JLabel("TIPO PRODUTO :");
+		lblTipoProduto.setToolTipText("TIPO PRODUTO");
+		lblTipoProduto.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTipoProduto.setBounds(278, 149, 175, 20);
+		contentPane.add(lblTipoProduto);
 		
+		AlphaNumericTextField  textFieldTipoProduto = new AlphaNumericTextField ();
+		textFieldTipoProduto.setBounds(448, 150, 172, 20);
+		contentPane.add(textFieldTipoProduto);
+		textFieldTipoProduto.setColumns(10);
+		
+	    /*BOTOES*/
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setToolTipText("VOLTAR");
         btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -78,33 +92,40 @@ public class ExcluiProduto extends BaseFrame {
         btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnExcluir.setBounds(550, 285, 110, 30);
         contentPane.add(btnExcluir);
-	   
-	
+		
 	   btnVoltar.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
                // Cria uma instância da tela inicial (classe ED) e a torna visível
         	   TelaInicial telaInicial = new TelaInicial();
                telaInicial.setVisible(true);
-
+ 
                // Fecha o frame atual
                dispose();
            }
        });
-
+ 
+	   ControleProduto cp = new ControleProduto(textFieldExcluirProduto, textFieldTipoProduto);
 	   btnExcluir.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
            	if(textFieldExcluirProduto.getText().isEmpty()) {
            		JOptionPane.showMessageDialog(null, "Campo não preenchido", "Erro", JOptionPane.ERROR_MESSAGE);
            	} else {
            		JOptionPane.showMessageDialog(null, "Exclusao concluida", "SUCESSO", JOptionPane.PLAIN_MESSAGE);
+           		cp.actionPerformed(e);
+           		ExcluiProduto excProdutojFrame = new ExcluiProduto();
+           		excProdutojFrame.setVisible(true);
+ 
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
            	}
            }
        });
 	          
-	 
+	
 	   
 }
-
+ 
     private JTextField createNumericTextField() {
         JTextField textField = new JTextField();
        
@@ -120,5 +141,21 @@ public class ExcluiProduto extends BaseFrame {
             }
         }
 	}
-
+    public class AlphaNumericTextField extends JTextField {
+		public AlphaNumericTextField() {
+			setDocument(new AlphaNumericDocument());
+		}
+ 
+		private class AlphaNumericDocument extends PlainDocument {
+			@Override
+			public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+				// Verifica se a string contém apenas letras ou espaços
+				if (str != null && str.matches("[a-zA-Z ]+")) {
+					super.insertString(offs, str, a);
+				}
+			}
+		}
+ 
+	}
+ 
 }

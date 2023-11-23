@@ -11,7 +11,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
+import controller.ControleProduto;
+import view.CadastraTipoDeProduto.AlphaNumericTextField;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -88,12 +89,12 @@ public class ConsultaProduto extends JFrame {
 		lblTipoProduto.setBounds(22, 149, 185, 21);
 		contentPane.add(lblTipoProduto);
 		
-		  AlphaNumericTextField  textFieldTipoProduto = new   AlphaNumericTextField ();
+	    AlphaNumericTextField  textFieldTipoProduto = new   AlphaNumericTextField ();
 		textFieldTipoProduto.setBounds(221, 149, 202, 20);
 		contentPane.add(textFieldTipoProduto);
 		textFieldTipoProduto.setColumns(10);
 		
-		
+		ControleProduto cp = new ControleProduto(textFieldID, textFieldTipoProduto);
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -103,14 +104,21 @@ public class ConsultaProduto extends JFrame {
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
 				
 				} else {
-				
-				JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);}
+				cp.actionPerformed(e);
+				ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+				ConsultaProdutojFrame.setVisible(true);
+ 
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
 			}
 		});
-
+		
 		btnAdicionarCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
+				cp.actionPerformed(e);
 				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
@@ -148,7 +156,7 @@ public class ConsultaProduto extends JFrame {
 	        setDocument(new AlphaNumericDocument());
 	    }
 
-	    private class AlphaNumericDocument extends PlainDocument {
+	    public class AlphaNumericDocument extends PlainDocument {
 	        @Override
 	        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 	            // Verifica se a string contém apenas letras ou espaços
