@@ -12,6 +12,14 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import controller.ControleProduto;
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+import model.ListaEncadeada;
+import model_main.Produto;
+=======
+>>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
+>>>>>>> Stashed changes
 import view.CadastraTipoDeProduto.AlphaNumericTextField;
 
 import javax.swing.JLabel;
@@ -114,11 +122,28 @@ public class ConsultaProduto extends JFrame {
 			}
 			}
 		});
+<<<<<<< Updated upstream
 		
 		btnAdicionarCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
 				cp.actionPerformed(e);
+=======
+<<<<<<< HEAD
+		ListaEncadeada<Produto>Carrinho = new ListaEncadeada<>();
+		ControleProduto cp1 = new ControleProduto(textFieldID, textFieldTipoProduto, Carrinho);
+		btnAdicionarCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Cria uma instância da tela inicial (classe ED) e a torna visível
+				cp1.actionPerformed(e);
+=======
+		
+		btnAdicionarCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Cria uma instância da tela inicial (classe ED) e a torna visível
+				cp.actionPerformed(e);
+>>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
+>>>>>>> Stashed changes
 				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
 			}
 		});

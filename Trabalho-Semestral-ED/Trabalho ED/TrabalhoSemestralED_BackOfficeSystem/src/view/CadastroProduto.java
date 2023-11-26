@@ -178,6 +178,8 @@ public class CadastroProduto extends BaseFrame {
 				}
 			}
 		});
+<<<<<<< HEAD
+=======
 
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -190,6 +192,10 @@ public class CadastroProduto extends BaseFrame {
 			}
 		});
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
+>>>>>>> Stashed changes
 	}
 
 	private JTextField createNumericTextField() {

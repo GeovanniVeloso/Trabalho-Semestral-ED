@@ -25,6 +25,7 @@ public class Carrinho extends BaseFrame {
      * Create the frame.
      */  
     public Carrinho(TelaInicial telaInicial) {
+    	
         getContentPane().setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 690, 360);

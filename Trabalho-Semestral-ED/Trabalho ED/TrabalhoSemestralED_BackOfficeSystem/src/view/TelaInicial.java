@@ -187,7 +187,13 @@ public class TelaInicial extends BaseFrame {
 								ControleProduto cp = new ControleProduto();
 								Carrinho CarrinhojFrame = new Carrinho(null);
 				            	CarrinhojFrame.setVisible(true);
+<<<<<<< HEAD
+=======
 				                
+<<<<<<< Updated upstream
+=======
+>>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
+>>>>>>> Stashed changes
 				            	cp.actionPerformed(e);
 				                // Fecha o frame atual, se necessário
 				                 setVisible(false);
