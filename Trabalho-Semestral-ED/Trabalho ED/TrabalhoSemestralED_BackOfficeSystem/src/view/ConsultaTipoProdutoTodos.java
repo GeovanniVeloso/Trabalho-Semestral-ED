@@ -33,14 +33,6 @@ public class ConsultaTipoProdutoTodos extends BaseFrame {
 	private JPanel contentPane;
 	private JTextField textFieldTipoProdutoTodos;
 	
-	/**
-	 * Launch the application.
-	 */
-
-
-	/**
-	 * Create the frame.
-	 */
 	public ConsultaTipoProdutoTodos() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

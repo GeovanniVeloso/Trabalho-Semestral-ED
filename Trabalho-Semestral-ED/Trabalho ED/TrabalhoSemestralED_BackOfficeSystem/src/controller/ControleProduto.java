@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -54,6 +53,35 @@ public class ControleProduto implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	// Opções de botão para ativar o sistema.
+	public void actionPerformed(ActionEvent e) {
+		String botaoSelec = e.getActionCommand();
+		try {
+			if (botaoSelec.equals("Cadastrar")) {
+				cadastrar();
+			}
+			if (botaoSelec.equals("Consultar")) {
+				consultar();
+			}
+			if (botaoSelec.equals("Excluir")) {
+				excluir();
+			}
+			if (botaoSelec.equals("Adicionar no carrinho")) {
+				addcarinho();
+			}
+			if (botaoSelec.equals("Remover")) {
+				removeCarrinho();
+			}
+			if (botaoSelec.equals("CARRINHO")) {
+				checkout();
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	public ControleProduto() {
@@ -126,33 +154,8 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
-	@Override
-	// Opções de botão para ativar o sistema.
-	public void actionPerformed(ActionEvent e) {
-		String botaoSelec = e.getActionCommand();
-		try {
-			if (botaoSelec.equals("Cadastrar")) {
-				cadastrar();
-			}
-			if (botaoSelec.equals("Consultar")) {
-				consultar();
-			}
-			if (botaoSelec.equals("Excluir")) {
-				excluir();
-			}
-			if (botaoSelec.equals("Adicionar no carrinho")) {
-				addcarinho();
-			}
-			if (botaoSelec.equals("Remover")) {
-				removeCarrinho();
-			}
-			if (botaoSelec.equals("CARRINHO")) {
-				checkout();
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-
+	public ControleProduto(ListaEncadeada<Produto> produtosCarrinho) {
+		this.carrinho = produtosCarrinho;
 	}
 
 	// Adiciona o produto ao carrinho caso ele exista e tenha um número em estoque
@@ -205,6 +208,7 @@ public class ControleProduto implements ActionListener {
 		int prodId = Integer.parseInt(textFieldProdId.getText());
 		int tamanho = carrinho.size();
 		Produto p;
+		read();
 		for (int i = 0; i < tamanho; i++) {
 			p = carrinho.getValue(i);
 			if (p.prodId == prodId) {
@@ -368,21 +372,29 @@ public class ControleProduto implements ActionListener {
 	}
 
 	// Coleta todos os produtos em um StringBuffer e retorna como um string.
-	public String prodTodos(int hash) throws Exception {
+	public String prodTodos(int hash) {
 		StringBuffer buffer = new StringBuffer();
 		ListaEncadeada<Produto> lista = hashTable[hash];
 		String conteudo = "";
+		// if (hash == 2) {
+		// System.out.println("Tipo 2.");
+		// } else {
 		if (!lista.isEmpty()) {
 			int size = lista.size();
 			for (int i = 0; i < size; i++) {
 				Produto p;
+				try {
 					p = lista.getValue(i);
 					buffer.append("#" + p.prodId + " NOME:" + p.nome + " R$:" + p.valor + " Descricao: " + p.desc
 							+ " ESTOQUE:" + p.qntdEstoque + "\r\n");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			conteudo = (buffer.toString() + "\r\n");
 			System.out.println(size);
 		}
+		// }
 		return conteudo;
 	}
 

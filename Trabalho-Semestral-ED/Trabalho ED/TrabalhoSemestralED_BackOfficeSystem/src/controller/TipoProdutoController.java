@@ -27,6 +27,46 @@ public class TipoProdutoController implements ActionListener {
     private ListaEncadeada<TipoProduto> listaTipoProduto;
     private File diretorio = new File("C:\\PastaTrabalhoED");
     private File arquivo = new File(diretorio, "Cadastro_TipoProduto.csv");
+    
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String comando = e.getActionCommand();
+		if(comando.equals("Cadastrar")) {
+			try {
+				cadastrarTipoProduto();
+			} catch (Exception erroCadastroTipoProduto) {
+				String mensagemErroCadastroTipoProduto = erroCadastroTipoProduto.getMessage();
+				JOptionPane.showMessageDialog(null, mensagemErroCadastroTipoProduto);
+			}
+		}
+		if(comando.equals("consultar")) {
+			try {
+				consultarTipoProdutoEspecifico();
+			} catch (Exception erroConsultaTipoProdutoEspecifico) {
+				String mensagemErroConsultaTipoProdutoEspecifico = erroConsultaTipoProdutoEspecifico.getMessage();
+				JOptionPane.showMessageDialog(null, mensagemErroConsultaTipoProdutoEspecifico);
+			}
+		}
+		if(comando.equals("Consultar")) {
+			try {
+				consultarTodosTiposProduto();
+			} catch (Exception erroConsultaTodosTiposProduto) {
+				String mensagemErroConsultaTodosTiposProduto = erroConsultaTodosTiposProduto.getMessage();
+				JOptionPane.showMessageDialog(null, mensagemErroConsultaTodosTiposProduto);
+			}
+		}
+		if(comando.equals("Excluir")) {
+			try {
+				excluirTipoProduto();
+			} catch (Exception erroExcluirTipoProduto) {
+				String mensagemErroExcluirTipoProduto = erroExcluirTipoProduto.getMessage();
+				JOptionPane.showMessageDialog(null, mensagemErroExcluirTipoProduto);
+			}
+		}
+	}
+    
+    
 	
 	//Construtor Tela Excluir Tipo Produto
 	public TipoProdutoController(JTextField tfNomeTipoProduto, ListaEncadeada<TipoProduto> listaTipoProduto) {
@@ -203,42 +243,7 @@ public class TipoProdutoController implements ActionListener {
 	}	//fim metodo
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String comando = e.getActionCommand();
-		if(comando.equals("Cadastrar")) {
-			try {
-				cadastrarTipoProduto();
-			} catch (Exception erroCadastroTipoProduto) {
-				String mensagemErroCadastroTipoProduto = erroCadastroTipoProduto.getMessage();
-				JOptionPane.showMessageDialog(null, mensagemErroCadastroTipoProduto);
-			}
-		}
-		if(comando.equals("consultar")) {
-			try {
-				consultarTipoProdutoEspecifico();
-			} catch (Exception erroConsultaTipoProdutoEspecifico) {
-				String mensagemErroConsultaTipoProdutoEspecifico = erroConsultaTipoProdutoEspecifico.getMessage();
-				JOptionPane.showMessageDialog(null, mensagemErroConsultaTipoProdutoEspecifico);
-			}
-		}
-		if(comando.equals("Consultar")) {
-			try {
-				consultarTodosTiposProduto();
-			} catch (Exception erroConsultaTodosTiposProduto) {
-				String mensagemErroConsultaTodosTiposProduto = erroConsultaTodosTiposProduto.getMessage();
-				JOptionPane.showMessageDialog(null, mensagemErroConsultaTodosTiposProduto);
-			}
-		}
-		if(comando.equals("Excluir")) {
-			try {
-				excluirTipoProduto();
-			} catch (Exception erroExcluirTipoProduto) {
-				String mensagemErroExcluirTipoProduto = erroExcluirTipoProduto.getMessage();
-				JOptionPane.showMessageDialog(null, mensagemErroExcluirTipoProduto);
-			}
-		}
-	}
+
 	
 	
 	//***************************************************************

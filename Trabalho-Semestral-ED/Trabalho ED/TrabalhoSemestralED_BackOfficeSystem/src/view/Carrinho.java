@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +15,9 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import model.ListaEncadeada;
+import model_main.Produto;
+
 public class Carrinho extends BaseFrame {
 
     private JPanel contentPane;
@@ -23,8 +25,9 @@ public class Carrinho extends BaseFrame {
 
     /**
      * Create the frame.
+     * @throws Exception 
      */  
-    public Carrinho(TelaInicial telaInicial) {
+    public Carrinho(TelaInicial telaInicial, ListaEncadeada<Produto> produtosCarrinho) throws Exception {
     	
         getContentPane().setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,11 +49,16 @@ public class Carrinho extends BaseFrame {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(10, 68, 654, 198);
         contentPane.add(scrollPane);
-
+        
+        //*Preenche Carrinho*//
         JTextArea textAreaCheckOut = new JTextArea();
         textAreaCheckOut.setToolTipText("OS SEUS ITENS QUE FORAM ADICIONADOS NO CARRINHO SÃO :");
         scrollPane.setViewportView(textAreaCheckOut);
         textAreaCheckOut.setEditable(false);
+        
+        String listaDeCompras = pegaListaDeCompras(produtosCarrinho);
+//        String listaDeCompras = pegaListaDeCompras(tsLista(produtosCarrinho)); //Linha para teste
+        textAreaCheckOut.setText(listaDeCompras);
 
         JButton btnCarrinhoFinalizar = new JButton("Finalizar");
         btnCarrinhoFinalizar.setBackground(new Color(255, 160, 122));
@@ -75,8 +83,7 @@ public class Carrinho extends BaseFrame {
 
         btnCarrinhoFinalizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Compras Realizadas com Sucesso", "Sucesso!",
-                        JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Compras Realizadas com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
 
                 // Fecha o frame atual
                 dispose();
@@ -104,4 +111,29 @@ public class Carrinho extends BaseFrame {
             }
         });
     }
+
+	private String pegaListaDeCompras(ListaEncadeada<Produto> ls) throws Exception {
+		StringBuffer buffer = new StringBuffer();
+		
+		for(int i = 0; i < ls.size(); i++) {
+			String S = ls.getValue(i).toString();
+			buffer.append(S+ "\n\r");
+		}
+		return buffer.toString();
+	}
+	
+	@SuppressWarnings("unused")
+	private ListaEncadeada<Produto>  tsLista(ListaEncadeada<Produto> ls){
+		
+		for (int i = 0; i < 10; i++) {
+			Produto p = new Produto(i, "Name", 0.0, "Desconto", 100, 7);
+			try {
+				ls.addLast(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ls;
+		
+	}
 }
