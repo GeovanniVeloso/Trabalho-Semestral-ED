@@ -33,7 +33,7 @@ public class ConsultaProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConsultaProduto() {
+	public ConsultaProduto(ListaEncadeada<Produto>Lista) {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 690, 360);
@@ -99,7 +99,7 @@ public class ConsultaProduto extends JFrame {
  
 				} else {
 					cp.actionPerformed(e);
-					ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+					ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto(Lista);
 					ConsultaProdutojFrame.setVisible(true);
  
 					// Fecha o frame atual, se necessário
@@ -108,12 +108,11 @@ public class ConsultaProduto extends JFrame {
 				}
 			}
 		});
-		ListaEncadeada<Produto> Carrinho = new ListaEncadeada<>();
-		ControleProduto cp1 = new ControleProduto(textFieldID, textFieldTipoProduto, Carrinho);
+		ControleProduto cp1 = new ControleProduto(textFieldID, textFieldTipoProduto, Lista);
 		btnAdicionarCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				cp1.actionPerformed(e);
+				cp1.actionPerformed1(e, Lista, null, null);
 				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
 						JOptionPane.PLAIN_MESSAGE);
 			}

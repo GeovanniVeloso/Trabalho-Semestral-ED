@@ -14,7 +14,10 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import br.edu.fatec.zl.stack.Stack;
+import br.edu.fateczl.fila.Fila;
 import controller.ControleProduto;
+
 import model.ListaEncadeada;
 import model_main.Produto;
 
@@ -181,14 +184,16 @@ public class TelaInicial extends BaseFrame {
 		// ActionListener para o botão CARRINHO
 
 		ListaEncadeada<Produto> produtosCarrinho = new ListaEncadeada<>();
+		Fila<Produto>filaCarrinho = new Fila<Produto>();
+		Stack<Produto>pilhaCarrinho = new Stack<Produto>();
 		btnCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					//Se for Trocar o Controller alterar aqui
-					ControleProduto cp = new ControleProduto(produtosCarrinho);
+					ControleProduto cp = new ControleProduto(produtosCarrinho, filaCarrinho, pilhaCarrinho);
 					Carrinho CarrinhojFrame = new Carrinho(null, produtosCarrinho);
 					CarrinhojFrame.setVisible(true);
-					cp.actionPerformed(e);
+					cp.actionPerformed1(e, produtosCarrinho, filaCarrinho, pilhaCarrinho);
 					// Fecha o frame atual, se necessário
 					setVisible(false);
 					dispose();
@@ -247,7 +252,7 @@ public class TelaInicial extends BaseFrame {
 
 		btnProdutoConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+				ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto(produtosCarrinho);
 				ConsultaProdutojFrame.setVisible(true);
 
 				// Fecha o frame atual, se necessário

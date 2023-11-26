@@ -100,6 +100,7 @@ public class Carrinho extends BaseFrame {
                 dispose();
             }
         });
+        
         btnCarrinhoVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Torna a tela inicial visível
@@ -114,7 +115,6 @@ public class Carrinho extends BaseFrame {
 
 	private String pegaListaDeCompras(ListaEncadeada<Produto> ls) throws Exception {
 		StringBuffer buffer = new StringBuffer();
-		
 		for(int i = 0; i < ls.size(); i++) {
 			String S = ls.getValue(i).toString();
 			buffer.append(S+ "\n\r");

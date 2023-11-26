@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import br.edu.fatec.zl.stack.Stack;
+import br.edu.fateczl.fila.Fila;
 import model.ListaEncadeada;
 import model_main.Produto;
 import model_main.TipoProduto;
@@ -26,6 +28,8 @@ public class ControleProduto implements ActionListener {
 	public ListaEncadeada<TipoProduto> listaTipoProduto = new ListaEncadeada<TipoProduto>();
 	ListaEncadeada<Produto> carrinho = new ListaEncadeada<Produto>();
 	private TipoProduto Tp;
+	Fila<Produto> fila = new Fila<Produto>();
+	Stack<Produto> pilha = new Stack<Produto>();
 
 	private JTextField textFieldProdId;
 	private JTextField textFieldNome;
@@ -53,35 +57,6 @@ public class ControleProduto implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	// Opções de botão para ativar o sistema.
-	public void actionPerformed(ActionEvent e) {
-		String botaoSelec = e.getActionCommand();
-		try {
-			if (botaoSelec.equals("Cadastrar")) {
-				cadastrar();
-			}
-			if (botaoSelec.equals("Consultar")) {
-				consultar();
-			}
-			if (botaoSelec.equals("Excluir")) {
-				excluir();
-			}
-			if (botaoSelec.equals("Adicionar no carrinho")) {
-				addcarinho();
-			}
-			if (botaoSelec.equals("Remover")) {
-				removeCarrinho();
-			}
-			if (botaoSelec.equals("CARRINHO")) {
-				checkout();
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-
 	}
 
 	public ControleProduto() {
@@ -153,62 +128,108 @@ public class ControleProduto implements ActionListener {
 			e.printStackTrace();
 		}
 	}
+	
+	public ControleProduto(ListaEncadeada<Produto>Lista, Fila<Produto>Fila, Stack<Produto>Stack) {
+		this.carrinho = Lista;
+		this.fila = Fila;
+		this.pilha = Stack;
+		
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	public ControleProduto(ListaEncadeada<Produto> produtosCarrinho) {
-		this.carrinho = produtosCarrinho;
+	@Override
+	// Opções de botão para ativar o sistema.
+	public void actionPerformed(ActionEvent e) {
+		String botaoSelec = e.getActionCommand();
+		try {
+			if (botaoSelec.equals("Cadastrar")) {
+				cadastrar();
+			}
+			if (botaoSelec.equals("Consultar")) {
+				consultar();
+			}
+			if (botaoSelec.equals("Excluir")) {
+				excluir();
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+	}
+
+	public ListaEncadeada<Produto> actionPerformed1(ActionEvent e, ListaEncadeada<Produto> Lista, Fila<Produto>Fila, Stack<Produto>Pilha) {
+		String botaoSelec = e.getActionCommand();
+		try {
+			if (botaoSelec.equals("Adicionar no carrinho")) {
+				Lista = addcarinho();
+				return Lista;
+			}
+			if (botaoSelec.equals("Remover")) {
+				Lista = removeCarrinho();
+				return Lista;
+			}
+			if (botaoSelec.equals("CARRINHO")) {
+				Fila = checkout();
+				return Lista;
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return Lista;
 	}
 
 	// Adiciona o produto ao carrinho caso ele exista e tenha um número em estoque
 	// igual ou superior a quantidade solicitada.
-	private void addcarinho() throws Exception {
+	private ListaEncadeada<Produto> addcarinho() throws Exception {
 		int id = Integer.parseInt(textFieldProdId.getText());
-		String Tipo = normalizarTipoProduto(textFieldTipo.getText());
-		Tipo = normalizarTipoProduto(Tipo);
-		int hash = hash(Tipo);
-		read();
+		int hash = hash(normalizarTipoProduto(textFieldTipo.getText()));
 		ListaEncadeada<Produto> lista = hashTable[hash];
+		Stack<Produto>pilha = new Stack<Produto>();
 		int size = lista.size();
 		Produto p;
 		boolean teste = false;
 		for (int i = 0; i < size; i++) {
 			p = lista.getValue(i);
 			if (p.prodId == id) {
-				teste = true;
-				carrinho.addFirst(p);
-				JOptionPane.showMessageDialog(null, "TAMANHO: " + carrinho.size());
-				i = size;
+				if (p.qntdEstoque >= 1) {
+					p.qntdEstoque = 1;
+					carrinho.addFirst(p);
+					lista.getValue(i).qntdEstoque -= 1;
+					teste = true;
+				} else {
+					JOptionPane.showMessageDialog(null, "NAO HA QUANTIDADE SUFICENTE EM ESTOQUE.");
+				}
 			}
 		}
 		if (teste == false) {
 			JOptionPane.showMessageDialog(null, "PRODUTO NAO ENCONTRADO.");
 		}
+		return carrinho;
 	}
 
 	// Verifica e mostra ao usuário os produtos do carrinho.
-	private void checkout() throws Exception {
-		String conteudo = null;
-		if (!carrinho.isEmpty()) {
-			int tamanho = carrinho.size();
-			StringBuffer buffer = new StringBuffer();
-			for (int i = 0; i < tamanho; i++) {
-				Produto p = carrinho.getValue(i);
-				buffer.append("#" + p.prodId + " #" + listaTipoProduto.getValue(p.indice) + " - " + p.nome + " - #"
-						+ p.valor + " - " + p.qntdEstoque);
-				buffer.append("\r\n");
-			}
-			conteudo = buffer.toString();
-			textAreaCheckOut.setText(conteudo);
-		} else {
-			JOptionPane.showMessageDialog(null, "CARRINHO VAZIO.");
+	private Fila<Produto> checkout() throws Exception {
+		int size = carrinho.size();
+		for (int i = 0; i < size; i++) {
+			fila.insert(carrinho.getValue(i));
 		}
+		return fila;
 	}
 
 	// Remove os produtos do carrinho e atualiza o estoque.
-	private void removeCarrinho() throws Exception {
+	private ListaEncadeada<Produto> removeCarrinho() throws Exception {
 		int prodId = Integer.parseInt(textFieldProdId.getText());
 		int tamanho = carrinho.size();
 		Produto p;
-		read();
+		boolean teste = false;
 		for (int i = 0; i < tamanho; i++) {
 			p = carrinho.getValue(i);
 			if (p.prodId == prodId) {
@@ -219,12 +240,17 @@ public class ControleProduto implements ActionListener {
 					if (lista.getValue(c).prodId == prodId) {
 						lista.getValue(c).qntdEstoque += p.qntdEstoque;
 						c = size;
+						teste = true;
 					}
 				}
 				i = tamanho;
 			}
 		}
+		if (teste == false) {
+			JOptionPane.showMessageDialog(null, "PRODUTO NAO ENCONTRADO.");
+		}
 		write();
+		return carrinho;
 	}
 
 	// Adiciona o produto a hash.
@@ -317,7 +343,7 @@ public class ControleProduto implements ActionListener {
 			int i = 0;
 			while (i < tamanho) {
 				p = lista.getValue(i);
-				buffer.append(p.toString() +";" + p.indice + "\r\n");
+				buffer.append(p.toString() + ";" + p.indice + "\r\n");
 				i = i + 1;
 			}
 			c = c + 1;

@@ -96,8 +96,14 @@ public class RemoverCarrinho extends BaseFrame {
 		btnVoltarRemoverCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				Carrinho carrinho = new Carrinho(null);
-				carrinho.setVisible(true);
+				Carrinho carrinho;
+				try {
+					carrinho = new Carrinho(null, null);
+					carrinho.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 				// Fecha o frame atual
 				dispose();
