@@ -1,7 +1,6 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,23 +67,15 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 	}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 	
 	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo, ListaEncadeada<Produto>Carrinho) {
 		this.textFieldProdId = TextFieldProdId;
 		this.textFieldTipo = textFieldTipo;
-		this.carrinho = carrinho;
-
 		int tamanho = hashTable.length;
 		for (int i = 0; i < tamanho; i++) {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 	}
-=======
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 
 	public ControleProduto(JTextField TextFieldProdId) {
 		this.textFieldProdId = TextFieldProdId;
@@ -151,13 +142,7 @@ public class ControleProduto implements ActionListener {
 				teste = true;
 				carrinho.addFirst(p);
 				JOptionPane.showMessageDialog(null, "TAMANHO: " + carrinho.size());
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 				i = size;
-=======
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 			} 
 		}
 		if (teste == false) {
@@ -342,20 +327,7 @@ public class ControleProduto implements ActionListener {
 				reader.close();
 				flux.close();
 			}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 		}
-=======
->>>>>>> Stashed changes
-		} else {
-			dir.mkdirs();
-		}
-
-<<<<<<< Updated upstream
-=======
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 	}
 
 	// Remove todos os produtos de um tipo específico.
@@ -378,7 +350,7 @@ public class ControleProduto implements ActionListener {
 		int size = lista.size();
 		for (int i = 0; i < size; i++) {
 			Produto p = lista.getValue(i);
-			buffer.append(p.toString() + "\r\n");
+			buffer.append("#" + p.prodId + " NOME:" + p.nome + " R$:" + p.valor + " Descricao: " + p.desc + " ESTOQUE:" +p.qntdEstoque+ "\r\n");
 		}
 		String conteudo = (buffer.toString() + "\r\n");
 		return conteudo;
@@ -422,20 +394,6 @@ public class ControleProduto implements ActionListener {
 		ListaEncadeada<Produto> lista = hashTable[p.indice];
 		int size = lista.size();
 		boolean teste = true;
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-		/*
-		 * while(i < size || teste == true) { if(lista.getValue(i).prodId == p.prodId) {
-		 * teste = false; i = size; }else { i = i +1; } }
-		 */
-
-<<<<<<< Updated upstream
-=======
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 		for (int i = 0; i < size; i++) {
 			if (lista.getValue(i).prodId == p.prodId) {
 				teste = false;
@@ -444,12 +402,4 @@ public class ControleProduto implements ActionListener {
 		}
 		return teste;
 	}
-<<<<<<< Updated upstream
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 }

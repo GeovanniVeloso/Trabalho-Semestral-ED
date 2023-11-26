@@ -276,6 +276,7 @@ public class TipoProdutoController implements ActionListener {
 	//Metodo utilizado para consultar um tipo de produto especifico, exibindo-se sua descricao
 	//******************************************************************************************************************
 	private void consultarTipoProdutoEspecifico() throws Exception  {
+		ControleProduto opProduto = new ControleProduto();
 		//Cria uma instancia de tipo de produto
 		TipoProduto tipoProdutoProcurado = new TipoProduto();
 		//Pega o conteudo de um campo na tela, inserido pelo usuario
@@ -294,7 +295,8 @@ public class TipoProdutoController implements ActionListener {
 				//Produto encontrado
 				tipoProdutoExiste = true;
 				//Informa usuario sobre este tipo de produto
-				taResultadoConsultaTipoProdutoEspecifico.setText(tipoProduto.toString());
+				String produto = opProduto.prodTodos(i);
+				taResultadoConsultaTipoProdutoEspecifico.setText(tipoProduto.toString() + "\nProduto(s): " + produto);
 				JOptionPane.showMessageDialog(null, "Consulta Realizada com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
 				break;
 			}	//fim if
@@ -312,6 +314,7 @@ public class TipoProdutoController implements ActionListener {
 	//Metodo utilizado para exibir ao usuario os tipos de produtos existentes no sistema
 	//*****************************************************************************************************
 	public void consultarTodosTiposProduto() throws IOException, Exception {
+		ControleProduto opProduto = new ControleProduto();
 		StringBuffer buffer = new StringBuffer();
 		if(listaTipoProduto.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nao ha nenhum tipo de produto na base de dados no momento",
@@ -322,7 +325,8 @@ public class TipoProdutoController implements ActionListener {
 			for(int i = 0; i < tamanho; i++) {
 				//Cria uma instancia e pega o tipo de produto da lista
 				TipoProduto tipoProduto = listaTipoProduto.getValue(i);
-				buffer.append(tipoProduto.toString() + "\r\n");
+				String produto = opProduto.prodTodos(i);
+				buffer.append(tipoProduto.toString() + "\nProduto(s): " + produto + "\r\n");
 			}	//fim for
 			String conteudo = buffer.toString();
 			//Informa usuario sobre este tipo de produto

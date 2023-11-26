@@ -178,24 +178,8 @@ public class CadastroProduto extends BaseFrame {
 				}
 			}
 		});
-<<<<<<< HEAD
-=======
+		
 
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				TelaInicial telaInicial = new TelaInicial();
-				telaInicial.setVisible(true);
-
-				// Fecha o frame atual
-				dispose();
-			}
-		});
-
-<<<<<<< Updated upstream
-=======
->>>>>>> 966725c709bb2fc7548dd21139509a1fe61d17b8
->>>>>>> Stashed changes
 	}
 
 	private JTextField createNumericTextField() {
