@@ -178,6 +178,8 @@ public class CadastroProduto extends BaseFrame {
 				}
 			}
 		});
+		
+
 	}
 
 	private JTextField createNumericTextField() {

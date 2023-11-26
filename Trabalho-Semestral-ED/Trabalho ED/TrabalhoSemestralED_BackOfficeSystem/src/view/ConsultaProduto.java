@@ -1,11 +1,16 @@
 package view;
-
+ 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.EventQueue;
-
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -14,28 +19,17 @@ import javax.swing.text.PlainDocument;
 import controller.ControleProduto;
 import model.ListaEncadeada;
 import model_main.Produto;
-import view.CadastraTipoDeProduto.AlphaNumericTextField;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
+ 
 public class ConsultaProduto extends JFrame {
-
+ 
 	private JPanel contentPane;
 	private JTextField textFieldID;
 	private JTextField textFieldTipoProduto;
-
+ 
 	/**
 	 * Launch the application.
 	 */
-
+ 
 	/**
 	 * Create the frame.
 	 */
@@ -47,67 +41,67 @@ public class ConsultaProduto extends JFrame {
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		;
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+ 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+ 
 		JLabel lblConsultaProduto = new JLabel("CONSULTA DE PRODUTO");
 		lblConsultaProduto.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblConsultaProduto.setBounds(181, 36, 289, 21);
 		contentPane.add(lblConsultaProduto);
-
+ 
 		JLabel lblID = new JLabel("ID :");
 		lblID.setToolTipText("ID");
 		lblID.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblID.setBounds(153, 114, 58, 24);
 		contentPane.add(lblID);
-
+ 
 		textFieldID = createNumericTextField();
 		textFieldID.setBounds(221, 114, 202, 24);
 		contentPane.add(textFieldID);
 		textFieldID.setColumns(10);
-
+ 
 		JButton btnAdicionarCarrinho = new JButton("Adicionar no carrinho");
 		btnAdicionarCarrinho.setBackground(new Color(255, 160, 122));
 		btnAdicionarCarrinho.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAdicionarCarrinho.setBounds(440, 287, 224, 23);
 		contentPane.add(btnAdicionarCarrinho);
-
+ 
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnConsultar.setBackground(new Color(0, 204, 255));
 		btnConsultar.setBounds(283, 287, 140, 23);
 		contentPane.add(btnConsultar);
-
+ 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVoltar.setBounds(161, 287, 112, 23);
 		contentPane.add(btnVoltar);
-
+ 
 		JLabel lblTipoProduto = new JLabel("TIPO PRODUTO :");
 		lblTipoProduto.setToolTipText("TIPO PRODUTO");
 		lblTipoProduto.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTipoProduto.setBounds(22, 149, 185, 21);
 		contentPane.add(lblTipoProduto);
-
+ 
 		AlphaNumericTextField textFieldTipoProduto = new AlphaNumericTextField();
 		textFieldTipoProduto.setBounds(221, 149, 202, 20);
 		contentPane.add(textFieldTipoProduto);
 		textFieldTipoProduto.setColumns(10);
-
+ 
 		ControleProduto cp = new ControleProduto(textFieldID, textFieldTipoProduto);
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+ 
 				if (textFieldID.getText().isEmpty() || textFieldTipoProduto.getText().isEmpty()) {
-
+ 
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
-
+ 
 				} else {
 					cp.actionPerformed(e);
 					ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
 					ConsultaProdutojFrame.setVisible(true);
-
+ 
 					// Fecha o frame atual, se necessário
 					setVisible(false);
 					dispose();
@@ -124,26 +118,26 @@ public class ConsultaProduto extends JFrame {
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		});
-
+ 
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
 				TelaInicial telaInicial = new TelaInicial();
 				telaInicial.setVisible(true);
-
+ 
 				// Fecha o frame atual
 				dispose();
 			}
 		});
 	}
-
+ 
 	private JTextField createNumericTextField() {
 		JTextField textField = new JTextField();
-
+ 
 		textField.setDocument(new NumericDocument());
 		return textField;
 	}
-
+ 
 	private class NumericDocument extends PlainDocument {
 		@Override
 		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -153,12 +147,12 @@ public class ConsultaProduto extends JFrame {
 			}
 		}
 	}
-
+ 
 	public class AlphaNumericTextField extends JTextField {
 		public AlphaNumericTextField() {
 			setDocument(new AlphaNumericDocument());
 		}
-
+ 
 		public class AlphaNumericDocument extends PlainDocument {
 			@Override
 			public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -168,6 +162,6 @@ public class ConsultaProduto extends JFrame {
 				}
 			}
 		}
-
+ 
 	}
 }

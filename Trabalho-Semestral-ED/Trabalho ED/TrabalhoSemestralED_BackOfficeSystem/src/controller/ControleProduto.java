@@ -1,7 +1,6 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,8 +71,6 @@ public class ControleProduto implements ActionListener {
 	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo, ListaEncadeada<Produto>Carrinho) {
 		this.textFieldProdId = TextFieldProdId;
 		this.textFieldTipo = textFieldTipo;
-		this.carrinho = carrinho;
-
 		int tamanho = hashTable.length;
 		for (int i = 0; i < tamanho; i++) {
 			hashTable[i] = new ListaEncadeada<Produto>();
@@ -143,12 +140,7 @@ public class ControleProduto implements ActionListener {
 			p = lista.getValue(i);
 			if (p.prodId == id) {
 				teste = true;
-				if(lista.getValue(i).qntdEstoque>=1) {
-					carrinho.addFirst(p);
-					lista.getValue(i).qntdEstoque -=1;
-				}else {
-					JOptionPane.showMessageDialog(null, "NAO HA ESTOQUE DESTE PRODUTO.");
-				}
+				carrinho.addFirst(p);
 				JOptionPane.showMessageDialog(null, "TAMANHO: " + carrinho.size());
 				i = size;
 			} 
@@ -191,7 +183,7 @@ public class ControleProduto implements ActionListener {
 				int size = lista.size();
 				for (int c = 0; i < size; i++) {
 					if (lista.getValue(c).prodId == prodId) {
-						lista.getValue(c).qntdEstoque += 1;
+						lista.getValue(c).qntdEstoque += p.qntdEstoque;
 						c = size;
 					}
 				}
@@ -358,7 +350,7 @@ public class ControleProduto implements ActionListener {
 		int size = lista.size();
 		for (int i = 0; i < size; i++) {
 			Produto p = lista.getValue(i);
-			buffer.append(p.toString() + "\r\n");
+			buffer.append("#" + p.prodId + " NOME:" + p.nome + " R$:" + p.valor + " Descricao: " + p.desc + " ESTOQUE:" +p.qntdEstoque+ "\r\n");
 		}
 		String conteudo = (buffer.toString() + "\r\n");
 		return conteudo;
