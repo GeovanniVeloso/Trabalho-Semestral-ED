@@ -22,8 +22,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
-
+import controller.ControleProduto;
 
 public class CadastroProduto extends BaseFrame {
 
@@ -37,7 +36,6 @@ public class CadastroProduto extends BaseFrame {
 	/**
 	 * Launch the application.
 	 */
-
 
 	/**
 	 * Create the frame.
@@ -56,26 +54,24 @@ public class CadastroProduto extends BaseFrame {
 		setContentPane(contentPane_1);
 		contentPane_1.setLayout(null);
 
-	
-
 		AlphaNumericTextField textFieldTipoProduto = new AlphaNumericTextField();
 		textFieldTipoProduto.setBounds(458, 248, 170, 20);
-		textFieldTipoProduto.setToolTipText("DIGITE O TIPO DO PRODUTO");	
+		textFieldTipoProduto.setToolTipText("DIGITE O TIPO DO PRODUTO");
 		contentPane_1.add(textFieldTipoProduto);
 		textFieldTipoProduto.setColumns(10);
 
-	    AlphaNumericTextField textFieldNomeProduto = new AlphaNumericTextField();
+		AlphaNumericTextField textFieldNomeProduto = new AlphaNumericTextField();
 		textFieldNomeProduto.setBounds(216, 115, 170, 20);
 		textFieldNomeProduto.setToolTipText("DIGITE O NOME DO PRODUTO");
 		contentPane_1.add(textFieldNomeProduto);
 		textFieldNomeProduto.setColumns(10);
 
-		textFieldCodigoProduto =  createNumericTextField();
+		textFieldCodigoProduto = createNumericTextField();
 		textFieldCodigoProduto.setToolTipText("DIGITE O CODIGO DO PRODUTO");
 		textFieldCodigoProduto.setBounds(270, 173, 105, 20);
 		contentPane_1.add(textFieldCodigoProduto);
 		textFieldCodigoProduto.setColumns(10);
-		
+
 		textFieldValorProduto = createDoubleTextField();
 		textFieldValorProduto.setToolTipText("DIGITE O VALOR DO PRODUTO");
 		textFieldValorProduto.setBounds(540, 175, 99, 20);
@@ -95,8 +91,6 @@ public class CadastroProduto extends BaseFrame {
 		JTextArea textAreaDescricaoProduto = new JTextArea();
 		textAreaDescricaoProduto.setToolTipText("DIGITE A DESCRIÇÃO DO PRODUTO");
 		scrollPane.setViewportView(textAreaDescricaoProduto);
-
-		
 
 		JLabel lblNomeProduto = new JLabel("NOME PRODUTO :");
 		lblNomeProduto.setToolTipText("NOME PRODUTO ");
@@ -133,8 +127,6 @@ public class CadastroProduto extends BaseFrame {
 		lblTituloCadastroProduto.setBounds(216, 39, 324, 20);
 		contentPane_1.add(lblTituloCadastroProduto);
 
-	
-
 		JLabel lblTipoProduto = new JLabel("TIPO DE PRODUTO");
 		lblTipoProduto.setToolTipText("TIPO DE PRODUTO");
 		lblTipoProduto.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -163,48 +155,33 @@ public class CadastroProduto extends BaseFrame {
 			}
 		});
 
+		ControleProduto cp = new ControleProduto(textFieldCodigoProduto, textFieldNomeProduto, textFieldValorProduto,
+				textAreaDescricaoProduto, textFieldQuantidadeProduto, textFieldTipoProduto);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Perform the check for empty text fields
 				if (textFieldNomeProduto.getText().isEmpty() || textFieldQuantidadeProduto.getText().isEmpty()
 						|| textFieldCodigoProduto.getText().isEmpty() || textFieldValorProduto.getText().isEmpty()
-						|| textAreaDescricaoProduto.getText().isEmpty() || textFieldTipoProduto.getText().isEmpty()
-					) {
+						|| textAreaDescricaoProduto.getText().isEmpty() || textFieldTipoProduto.getText().isEmpty()) {
 
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
-				
+
 				} else {
-				
-					JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
-					// Cria uma instância da classe pfoupj e a torna visível
-	            				}
+					cp.actionPerformed(e);
+					CadastroProduto cadProdutojFrame = new CadastroProduto();
+					cadProdutojFrame.setVisible(true);
+
+					// Fecha o frame atual, se necessário
+					setVisible(false);
+					dispose();
+
+				}
 			}
 		});
-
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				TelaInicial telaInicial = new TelaInicial();
-				telaInicial.setVisible(true);
-
-				// Fecha o frame atual
-				dispose();
-			}
-		});		
-		
 	}
 
-	
-	
-
-	
-
-	
- 
-	
 	private JTextField createNumericTextField() {
 		JTextField textField = new JTextField();
-		
 
 		textField.setDocument(new NumericDocument());
 		return textField;
@@ -219,20 +196,22 @@ public class CadastroProduto extends BaseFrame {
 			}
 		}
 	}
+
 	private JTextField createDoubleTextField() {
-	    JTextField textField = new JTextField();
-	  
-	    textField.setDocument(new DoubleDocument());
-	    return textField;
+		JTextField textField = new JTextField();
+
+		textField.setDocument(new DoubleDocument());
+		return textField;
 	}
+
 	public class DoubleDocument extends PlainDocument {
-	    @Override
-	    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-	        // Verifica se a string contém apenas números ou ponto (para números decimais)
-	        if (str != null && str.matches("\\d*\\.?\\d*")) {
-	            super.insertString(offs, str, a);
-	        }
-	    }
+		@Override
+		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+			// Verifica se a string contém apenas números ou ponto (para números decimais)
+			if (str != null && str.matches("\\d*\\.?\\d*")) {
+				super.insertString(offs, str, a);
+			}
+		}
 	}
 
 	public class AlphaNumericTextField extends JTextField {

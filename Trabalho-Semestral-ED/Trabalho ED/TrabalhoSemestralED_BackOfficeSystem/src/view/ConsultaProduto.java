@@ -11,7 +11,10 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
+import controller.ControleProduto;
+import model.ListaEncadeada;
+import model_main.Produto;
+import view.CadastraTipoDeProduto.AlphaNumericTextField;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +36,6 @@ public class ConsultaProduto extends JFrame {
 	 * Launch the application.
 	 */
 
-
 	/**
 	 * Create the frame.
 	 */
@@ -42,76 +44,84 @@ public class ConsultaProduto extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 690, 360);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.LIGHT_GRAY);;
+		contentPane.setBackground(Color.LIGHT_GRAY);
+		;
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblConsultaProduto = new JLabel("CONSULTA DE PRODUTO");
 		lblConsultaProduto.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblConsultaProduto.setBounds(181, 36, 289, 21);
 		contentPane.add(lblConsultaProduto);
-		
+
 		JLabel lblID = new JLabel("ID :");
 		lblID.setToolTipText("ID");
 		lblID.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblID.setBounds(153, 114, 58, 24);
 		contentPane.add(lblID);
-	
-		
+
 		textFieldID = createNumericTextField();
 		textFieldID.setBounds(221, 114, 202, 24);
 		contentPane.add(textFieldID);
 		textFieldID.setColumns(10);
-		
+
 		JButton btnAdicionarCarrinho = new JButton("Adicionar no carrinho");
 		btnAdicionarCarrinho.setBackground(new Color(255, 160, 122));
 		btnAdicionarCarrinho.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAdicionarCarrinho.setBounds(440, 287, 224, 23);
 		contentPane.add(btnAdicionarCarrinho);
-		
+
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnConsultar.setBackground(new Color(0, 204, 255));
 		btnConsultar.setBounds(283, 287, 140, 23);
 		contentPane.add(btnConsultar);
-		
+
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVoltar.setBounds(161, 287, 112, 23);
 		contentPane.add(btnVoltar);
-		
+
 		JLabel lblTipoProduto = new JLabel("TIPO PRODUTO :");
 		lblTipoProduto.setToolTipText("TIPO PRODUTO");
 		lblTipoProduto.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTipoProduto.setBounds(22, 149, 185, 21);
 		contentPane.add(lblTipoProduto);
-		
-		  AlphaNumericTextField  textFieldTipoProduto = new   AlphaNumericTextField ();
+
+		AlphaNumericTextField textFieldTipoProduto = new AlphaNumericTextField();
 		textFieldTipoProduto.setBounds(221, 149, 202, 20);
 		contentPane.add(textFieldTipoProduto);
 		textFieldTipoProduto.setColumns(10);
-		
-		
+
+		ControleProduto cp = new ControleProduto(textFieldID, textFieldTipoProduto);
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if (textFieldID.getText().isEmpty() || textFieldTipoProduto.getText().isEmpty()
-					) {
+
+				if (textFieldID.getText().isEmpty() || textFieldTipoProduto.getText().isEmpty()) {
 
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
-				
+
 				} else {
-				
-				JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);}
+					cp.actionPerformed(e);
+					ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+					ConsultaProdutojFrame.setVisible(true);
+
+					// Fecha o frame atual, se necessário
+					setVisible(false);
+					dispose();
+				}
 			}
 		});
-
+		ListaEncadeada<Produto> Carrinho = new ListaEncadeada<>();
+		ControleProduto cp1 = new ControleProduto(textFieldID, textFieldTipoProduto, Carrinho);
 		btnAdicionarCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
+				cp1.actionPerformed(e);
+				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
+						JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 
@@ -126,6 +136,7 @@ public class ConsultaProduto extends JFrame {
 			}
 		});
 	}
+
 	private JTextField createNumericTextField() {
 		JTextField textField = new JTextField();
 
@@ -144,20 +155,19 @@ public class ConsultaProduto extends JFrame {
 	}
 
 	public class AlphaNumericTextField extends JTextField {
-	    public AlphaNumericTextField() {
-	        setDocument(new AlphaNumericDocument());
-	    }
+		public AlphaNumericTextField() {
+			setDocument(new AlphaNumericDocument());
+		}
 
-	    private class AlphaNumericDocument extends PlainDocument {
-	        @Override
-	        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-	            // Verifica se a string contém apenas letras ou espaços
-	            if (str != null && str.matches("[a-zA-Z ]+")) {
-	                super.insertString(offs, str, a);
-	            }
-	        }
-	    }
+		public class AlphaNumericDocument extends PlainDocument {
+			@Override
+			public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+				// Verifica se a string contém apenas letras ou espaços
+				if (str != null && str.matches("[a-zA-Z ]+")) {
+					super.insertString(offs, str, a);
+				}
+			}
+		}
 
-}
 	}
-
+}

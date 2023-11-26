@@ -23,8 +23,9 @@ public class Carrinho extends BaseFrame {
 
     /**
      * Create the frame.
-     */
+     */  
     public Carrinho(TelaInicial telaInicial) {
+    	
         getContentPane().setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 690, 360);
@@ -46,10 +47,10 @@ public class Carrinho extends BaseFrame {
         scrollPane.setBounds(10, 68, 654, 198);
         contentPane.add(scrollPane);
 
-        JTextArea textArea = new JTextArea();
-        textArea.setToolTipText("OS SEUS ITENS QUE FORAM ADICIONADOS NO CARRINHO SÃO :");
-        scrollPane.setViewportView(textArea);
-        textArea.setEditable(false);
+        JTextArea textAreaCheckOut = new JTextArea();
+        textAreaCheckOut.setToolTipText("OS SEUS ITENS QUE FORAM ADICIONADOS NO CARRINHO SÃO :");
+        scrollPane.setViewportView(textAreaCheckOut);
+        textAreaCheckOut.setEditable(false);
 
         JButton btnCarrinhoFinalizar = new JButton("Finalizar");
         btnCarrinhoFinalizar.setBackground(new Color(255, 160, 122));
@@ -81,7 +82,8 @@ public class Carrinho extends BaseFrame {
                 dispose();
             }
         });
-
+        
+        
         btnCarrinhoRemover.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 RemoverCarrinho remover = new RemoverCarrinho();

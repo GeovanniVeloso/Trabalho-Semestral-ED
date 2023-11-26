@@ -11,7 +11,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
+import controller.ControleProduto;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -77,6 +77,7 @@ public class RemoverCarrinho extends BaseFrame {
 		btnRemoveRemoverCarrinho.setBounds(549, 287, 115, 23);
 		contentPane.add(btnRemoveRemoverCarrinho);
 
+		ControleProduto cp = new ControleProduto(textFieldIndiceProduto);
 		btnRemoveRemoverCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textFieldIndiceProduto.getText().isEmpty()) {
@@ -84,7 +85,7 @@ public class RemoverCarrinho extends BaseFrame {
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
 
 				} else {
-
+					cp.actionPerformed(e);
 					JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!",
 							JOptionPane.PLAIN_MESSAGE);
 				}

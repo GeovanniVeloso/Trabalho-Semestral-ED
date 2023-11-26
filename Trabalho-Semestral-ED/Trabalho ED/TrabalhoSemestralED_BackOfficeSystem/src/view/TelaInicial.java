@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import controller.ControleProduto;
 import controller.TipoProdutoController;
 import model.ListaEncadeada;
 import model_main.TipoProduto;
@@ -183,10 +184,10 @@ public class TelaInicial extends BaseFrame {
 						// ActionListener para o botão COMPRA
 						btnCarrinho.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								ControleProduto cp = new ControleProduto();
 								Carrinho CarrinhojFrame = new Carrinho(null);
 				            	CarrinhojFrame.setVisible(true);
-				                
-
+				            	cp.actionPerformed(e);
 				                // Fecha o frame atual, se necessário
 				                 setVisible(false);
 				                 dispose();
