@@ -1,6 +1,7 @@
 package controller;
 
-import java.awt.event.ActionEvent;import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,51 +48,10 @@ public class ControleProduto implements ActionListener {
 		for (int i = 0; i < tamanho; i++) {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
-	}
-
-	public ControleProduto() {
-		super();
-		
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
-		}
-	}
-
-	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo) {
-		this.textFieldProdId = TextFieldProdId;
-		this.textFieldTipo = textFieldTipo;
-
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
-		}
-	}
-	
-	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo, ListaEncadeada<Produto>Carrinho) {
-		this.textFieldProdId = TextFieldProdId;
-		this.textFieldTipo = textFieldTipo;
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
-		}
-	}
-
-	public ControleProduto(JTextField TextFieldProdId) {
-		this.textFieldProdId = TextFieldProdId;
-
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
-		}
-	}
-
-	public ControleProduto(JTextArea TextAreaCheckOut) {
-		this.textAreaCheckOut = TextAreaCheckOut;
-
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -124,6 +84,80 @@ public class ControleProduto implements ActionListener {
 
 	}
 
+	public ControleProduto() {
+		super();
+
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo) {
+		this.textFieldProdId = TextFieldProdId;
+		this.textFieldTipo = textFieldTipo;
+
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo, ListaEncadeada<Produto> Carrinho) {
+		this.textFieldProdId = TextFieldProdId;
+		this.textFieldTipo = textFieldTipo;
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ControleProduto(JTextField TextFieldProdId) {
+		this.textFieldProdId = TextFieldProdId;
+
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ControleProduto(JTextArea TextAreaCheckOut) {
+		this.textAreaCheckOut = TextAreaCheckOut;
+		int tamanho = hashTable.length;
+		for (int i = 0; i < tamanho; i++) {
+			hashTable[i] = new ListaEncadeada<Produto>();
+		}
+		try {
+			read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ControleProduto(ListaEncadeada<Produto> produtosCarrinho) {
+		this.carrinho = produtosCarrinho;
+	}
+
 	// Adiciona o produto ao carrinho caso ele exista e tenha um número em estoque
 	// igual ou superior a quantidade solicitada.
 	private void addcarinho() throws Exception {
@@ -136,14 +170,14 @@ public class ControleProduto implements ActionListener {
 		int size = lista.size();
 		Produto p;
 		boolean teste = false;
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			p = lista.getValue(i);
 			if (p.prodId == id) {
 				teste = true;
 				carrinho.addFirst(p);
 				JOptionPane.showMessageDialog(null, "TAMANHO: " + carrinho.size());
 				i = size;
-			} 
+			}
 		}
 		if (teste == false) {
 			JOptionPane.showMessageDialog(null, "PRODUTO NAO ENCONTRADO.");
@@ -202,7 +236,6 @@ public class ControleProduto implements ActionListener {
 				Double.parseDouble(textFieldValor.getText()), desc, Integer.parseInt(textFieldQntdEstoque.getText()),
 				hash);
 		boolean teste = true;
-		read();
 		ListaEncadeada<Produto> lista = hashTable[hash];
 		if (!lista.isEmpty()) {
 			teste = validaProduto(p);
@@ -225,7 +258,6 @@ public class ControleProduto implements ActionListener {
 		int id = Integer.parseInt(textFieldProdId.getText());
 		String Tipo = normalizarTipoProduto(textFieldTipo.getText());
 		int hash = hash(Tipo);
-		read();
 		ListaEncadeada<Produto> lista = hashTable[hash];
 		int size = lista.size();
 		Produto prod;
@@ -251,7 +283,6 @@ public class ControleProduto implements ActionListener {
 		int id = Integer.parseInt(textFieldProdId.getText());
 		String Tipo = normalizarTipoProduto(textFieldTipo.getText());
 		int hash = hash(Tipo);
-		read();
 		ListaEncadeada<Produto> lista = hashTable[hash];
 		int size = lista.size();
 		Produto prod;
@@ -286,7 +317,7 @@ public class ControleProduto implements ActionListener {
 			int i = 0;
 			while (i < tamanho) {
 				p = lista.getValue(i);
-				buffer.append(p.toString() + "\r\n");
+				buffer.append(p.toString() +";" + p.indice + "\r\n");
 				i = i + 1;
 			}
 			c = c + 1;
@@ -332,9 +363,7 @@ public class ControleProduto implements ActionListener {
 
 	// Remove todos os produtos de um tipo específico.
 	public void excluiTipo(int hash) throws Exception {
-		read();
 		ListaEncadeada<Produto> lista = hashTable[hash];
-
 		while (!lista.isEmpty()) {
 			lista.removeFirst();
 		}
@@ -343,16 +372,29 @@ public class ControleProduto implements ActionListener {
 	}
 
 	// Coleta todos os produtos em um StringBuffer e retorna como um string.
-	public String prodTodos(int hash) throws Exception {
-		read();
+	public String prodTodos(int hash) {
 		StringBuffer buffer = new StringBuffer();
 		ListaEncadeada<Produto> lista = hashTable[hash];
-		int size = lista.size();
-		for (int i = 0; i < size; i++) {
-			Produto p = lista.getValue(i);
-			buffer.append("#" + p.prodId + " NOME:" + p.nome + " R$:" + p.valor + " Descricao: " + p.desc + " ESTOQUE:" +p.qntdEstoque+ "\r\n");
+		String conteudo = "";
+		// if (hash == 2) {
+		// System.out.println("Tipo 2.");
+		// } else {
+		if (!lista.isEmpty()) {
+			int size = lista.size();
+			for (int i = 0; i < size; i++) {
+				Produto p;
+				try {
+					p = lista.getValue(i);
+					buffer.append("#" + p.prodId + " NOME:" + p.nome + " R$:" + p.valor + " Descricao: " + p.desc
+							+ " ESTOQUE:" + p.qntdEstoque + "\r\n");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			conteudo = (buffer.toString() + "\r\n");
+			System.out.println(size);
 		}
-		String conteudo = (buffer.toString() + "\r\n");
+		// }
 		return conteudo;
 	}
 

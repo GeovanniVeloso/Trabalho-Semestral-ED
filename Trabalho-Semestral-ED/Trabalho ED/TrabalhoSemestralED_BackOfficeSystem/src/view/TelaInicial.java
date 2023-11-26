@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -16,15 +15,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.ControleProduto;
-import controller.TipoProdutoController;
 import model.ListaEncadeada;
-import model_main.TipoProduto;
+import model_main.Produto;
 
 public class TelaInicial extends BaseFrame {
 
 	private JPanel contentPane;
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -90,7 +87,7 @@ public class TelaInicial extends BaseFrame {
 		lblCliente.setToolTipText("CLASSE CLIENTE");
 		lblCliente.setBounds(46, 34, 139, 27);
 		panelCliente.add(lblCliente);
-		
+
 		JButton btnClienteCheckout = new JButton("CHECKOUT");
 		btnClienteCheckout.setBounds(20, 192, 165, 23);
 		panelCliente.add(btnClienteCheckout);
@@ -157,7 +154,7 @@ public class TelaInicial extends BaseFrame {
 		JButton btnTipoProdutoExcluir = new JButton("EXCLUIR");
 		btnTipoProdutoExcluir.setToolTipText("EXCLUSAO DE TIPO DE PRODUTO");
 		btnTipoProdutoExcluir.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTipoProdutoExcluir.setBackground(new Color(245, 255, 250));
+		btnTipoProdutoExcluir.setBackground(new Color(255, 255, 255));
 		btnTipoProdutoExcluir.setBounds(20, 200, 165, 23);
 		panelTipoProduto.add(btnTipoProdutoExcluir);
 
@@ -173,53 +170,56 @@ public class TelaInicial extends BaseFrame {
 		lblTelaInicial.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblTelaInicial.setBounds(250, 11, 236, 31);
 		contentPane.add(lblTelaInicial);
-		
-				JButton btnCarrinho = new JButton("CARRINHO");
-				btnCarrinho.setBounds(529, 19, 114, 23);
-				contentPane.add(btnCarrinho);
-				btnCarrinho.setToolTipText("CARRINHO");
-				btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 14));
-				btnCarrinho.setBackground(new Color(255, 255, 255));
-				
-						// ActionListener para o botão COMPRA
-						btnCarrinho.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								ControleProduto cp = new ControleProduto();
-								Carrinho CarrinhojFrame = new Carrinho(null);
-				            	CarrinhojFrame.setVisible(true);
-				            	cp.actionPerformed(e);
-				                // Fecha o frame atual, se necessário
-				                 setVisible(false);
-				                 dispose();
-							}
-						});
-						
-						
+
+		JButton btnCarrinho = new JButton("CARRINHO");
+		btnCarrinho.setBounds(529, 19, 114, 23);
+		contentPane.add(btnCarrinho);
+		btnCarrinho.setToolTipText("CARRINHO");
+		btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCarrinho.setBackground(new Color(255, 255, 255));
+
+		// ActionListener para o botão CARRINHO
+
+		ListaEncadeada<Produto> produtosCarrinho = new ListaEncadeada<>();
+		btnCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					//Se for Trocar o Controller alterar aqui
+					ControleProduto cp = new ControleProduto(produtosCarrinho);
+					Carrinho CarrinhojFrame = new Carrinho(null, produtosCarrinho);
+					CarrinhojFrame.setVisible(true);
+					cp.actionPerformed(e);
+					// Fecha o frame atual, se necessário
+					setVisible(false);
+					dispose();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
 
 		// ActionListener para o botão de CADASTRO do CLIENTE
-		   btnClienteCadastro.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	                // Cria uma instância da classe pfoupj e a torna visível
-	            	ClienteCPFouCNPJ ClienteCpfouCnpjjFrame = new ClienteCPFouCNPJ();
-	            	ClienteCpfouCnpjjFrame.setVisible(true);
-	                
+		btnClienteCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Cria uma instância da classe pfoupj e a torna visível
+				ClienteCPFouCNPJ ClienteCpfouCnpjjFrame = new ClienteCPFouCNPJ();
+				ClienteCpfouCnpjjFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
-	            }
-	        });
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
+		});
 
-	     
 		// ActionListener para o botão de CONSULTA do CLIENTE
 		btnClienteConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				  ConsultaCliente conClientejFrame = new ConsultaCliente();
-				  conClientejFrame.setVisible(true);
+				ConsultaCliente conClientejFrame = new ConsultaCliente();
+				conClientejFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
 			}
 		});
 
@@ -227,32 +227,32 @@ public class TelaInicial extends BaseFrame {
 		btnClienteExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ExcluiCliente excClientejFrame = new ExcluiCliente();
-				  excClientejFrame.setVisible(true);
+				excClientejFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
 			}
 		});
 		btnClienteCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 Checkout CheckoutjFrame = new Checkout();
-				 CheckoutjFrame.setVisible(true);
+				Checkout CheckoutjFrame = new Checkout();
+				CheckoutjFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
 			}
 		});
 
 		btnProdutoConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
-				 ConsultaProdutojFrame.setVisible(true);
+				ConsultaProduto ConsultaProdutojFrame = new ConsultaProduto();
+				ConsultaProdutojFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
 			}
 		});
 
@@ -261,23 +261,21 @@ public class TelaInicial extends BaseFrame {
 				CadastroProduto cadProdutojFrame = new CadastroProduto();
 				cadProdutojFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
-				
-				
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+
 			}
 		});
-				// ActionListener para o botão CONSULTA do TIPO DO PRODUTO
+		// ActionListener para o botão CONSULTA do TIPO DO PRODUTO
 		btnTipoProdutoConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TipoProdutoEspecificoouTodos TipoProdutoEspecificoouTodosjFrame = new TipoProdutoEspecificoouTodos();
 				TipoProdutoEspecificoouTodosjFrame.setVisible(true);
-                
 
-                // Fecha o frame atual, se necessário
-                 setVisible(false);
-                 dispose();
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
 			}
 		});
 
@@ -287,41 +285,34 @@ public class TelaInicial extends BaseFrame {
 				ExcluiTipoDeProduto excTipoProdutojFrame = new ExcluiTipoDeProduto();
 				excTipoProdutojFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
-							}
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
 		});
 		btnProdutoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ExcluiProduto excProdutojFrame = new ExcluiProduto();
 				excProdutojFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
-							}
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
 		});
-	
+
 		btnTipoProdutoCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CadastraTipoDeProduto cadTipoProdutojFrame = new CadastraTipoDeProduto();
 				cadTipoProdutojFrame.setVisible(true);
 
-	                // Fecha o frame atual, se necessário
-	                 setVisible(false);
-	                 dispose();
-				
-				
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+
 			}
 		});
-		
-			
-	
+
 	}
 
-	
-	
-
-	
-	}
+}
