@@ -111,7 +111,7 @@ public class Historico extends BaseFrame {
 					JOptionPane.showMessageDialog(null, "Campo não preenchido", "Erro", JOptionPane.ERROR_MESSAGE);
 				} else {
 					ControleCompra opCC = new ControleCompra(textFieldIDdeCompra, textAreaResultadoConsultaHistorico);
-					
+					opCC.actionPerformed(e);
 				}
 		}
 			

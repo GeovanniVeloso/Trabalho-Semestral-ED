@@ -180,18 +180,21 @@ public class ControleProduto implements ActionListener {
 			File dir = new File("C:\\PastaTrabalhoED");
 			File arquivo = new File(dir , "CarrinhoDeCompras.csv");
 			if (dir.exists() && dir.isDirectory()) {// existe e é um diretório?
- 
-				FileWriter filewriter = new FileWriter(arquivo);
-				PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
- 
-				for (int i = 0; i < carrinho.size(); i++) {
-					print.write(carrinho.getValue(i).toString() + "\r\n");
+				Produto p;
+				StringBuffer buffer = new StringBuffer();
+				int tamanho = carrinho.size() - 1;
+				while (tamanho >= 0) {
+					p = carrinho.getValue(tamanho);
+					buffer.append(p.toString() + "\r\n");
+					tamanho -= 1;
 				}
- 
-				print.flush();// termina a escrita
+				String thing = buffer.toString();
+				FileWriter fileWriter = new FileWriter(arquivo);
+				PrintWriter print = new PrintWriter(fileWriter);
+				print.write(thing);
+				print.flush();
 				print.close();
-				filewriter.close();
- 
+				fileWriter.close();
 			} else {
 				throw new IOException("Diretório Inválido");
 			}
@@ -634,7 +637,7 @@ public class ControleProduto implements ActionListener {
 			JOptionPane.showMessageDialog(null, "O carrinho de compras esta vazio.", "Carrinho vazio",
 											JOptionPane.PLAIN_MESSAGE);
 		} else {
-			carrinho = inverterPilha(carrinho);
+//			carrinho = inverterPilha(carrinho);
 			while(!carrinho.isEmpty()) {
 				Produto produto = carrinho.pop();
 				buffer.append("#" + produto.prodId + "\t" + produto.nome + "\t$" + produto.valor + "\r\n");

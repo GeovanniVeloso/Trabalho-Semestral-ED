@@ -84,7 +84,7 @@ public class RemoverCarrinho extends BaseFrame {
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
 				} else {
 					cp.actionPerformed(e);
-					JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!",
+					JOptionPane.showMessageDialog(null, "Remoção Realizada com Sucesso", "Sucesso!",
 							JOptionPane.PLAIN_MESSAGE);
 				}
 			}
