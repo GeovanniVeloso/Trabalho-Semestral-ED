@@ -226,7 +226,8 @@ public class ControleProduto implements ActionListener {
 			if (p.prodId == id) {
 				if (lista.getValue(i).qntdEstoque >= 1) {
 					carrinho.addFirst(p);
-					lista.getValue(i).qntdEstoque -= 1;
+					int novoEstoque = lista.getValue(i).qntdEstoque - 1;
+					lista.getValue(i).setQntdEstoque(novoEstoque);
 					teste = true;
 				} else {
 					JOptionPane.showMessageDialog(null, "NÃO HA QUANTIDADE SUFICENTE EM ESTOQUE.");
@@ -236,6 +237,7 @@ public class ControleProduto implements ActionListener {
 		if (teste == false) {
 			JOptionPane.showMessageDialog(null, "PRODUTO NÃO ENCONTRADO.");
 		} else {
+			write();
 			criarCSV(carrinho);
 			JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
 					JOptionPane.PLAIN_MESSAGE);
@@ -307,20 +309,7 @@ public class ControleProduto implements ActionListener {
 				i = size;
 			}
 		}
-		StringBuffer buffer = new StringBuffer();
-		int tamanho = Carrinho.size() - 1;
-		while (tamanho >= 0) {
-			p = Carrinho.getValue(tamanho);
-			buffer.append(p.toString() + "\r\n");
-			tamanho -= 1;
-		}
-		String thing = buffer.toString();
-		FileWriter fileWriter = new FileWriter(arq);
-		PrintWriter print = new PrintWriter(fileWriter);
-		print.write(thing);
-		print.flush();
-		print.close();
-		fileWriter.close();
+		criarCSV(Carrinho);
 	}
 
 	// Adiciona o produto a hash.
@@ -376,6 +365,7 @@ public class ControleProduto implements ActionListener {
 
 	// Procura produtos na hash.
 	private void consultar() throws Exception {
+		read();
 		int id = Integer.parseInt(textFieldProdId.getText());
 		String Tipo = normalizarTipoProduto(textFieldTipo.getText());
 		int hash = hash(Tipo);
@@ -429,6 +419,15 @@ public class ControleProduto implements ActionListener {
 
 	// Coleta os dados do produto de um csv.
 	private void read() throws Exception {
+		int size = hashTable.length;
+		for(int i = 0; i < size; i ++) {
+			ListaEncadeada<Produto>erase = hashTable[i];
+			if(!erase.isEmpty()) {
+				while(!erase.isEmpty()) {
+					erase.removeFirst();
+				}
+			}
+		}
 		File dir = new File("C:\\PastaTrabalhoED");
 		File arq = new File(dir, "Produto.csv");
 		Produto p;
@@ -637,10 +636,9 @@ public class ControleProduto implements ActionListener {
 			JOptionPane.showMessageDialog(null, "O carrinho de compras esta vazio.", "Carrinho vazio",
 											JOptionPane.PLAIN_MESSAGE);
 		} else {
-//			carrinho = inverterPilha(carrinho);
 			while(!carrinho.isEmpty()) {
 				Produto produto = carrinho.pop();
-				buffer.append("#" + produto.prodId + "\t" + produto.nome + "\t$" + produto.valor + "\r\n");
+				buffer.append("#" + produto.prodId + "     " + produto.nome + "     $" + produto.valor + "\r\n");
 			}
 			String conteudo = buffer.toString();
 			textAreaCarrinho.setText(conteudo);
@@ -674,14 +672,4 @@ public class ControleProduto implements ActionListener {
 		return carrinho;
 	}
 	
-	//***************************************************************************************************
-	//Método que inverte a pilha carrinho para exibição em ordem
-	//***************************************************************************************************
-	private Stack inverterPilha(Stack<Produto> carrinho) throws Exception {
-		Stack<Produto> pilhaAuxiliar = new Stack<Produto>();
-		while(!carrinho.isEmpty()) {
-			pilhaAuxiliar.push(carrinho.pop());
-		}
-		return pilhaAuxiliar;
-	}
 }

@@ -55,11 +55,12 @@ public class ControleCompra {
 			if (botaoSelec.equals("consultar")) {
 				exibirHistorico();
 			}
+//			if (botaoSelec.equals("))
 		} catch (Exception erro) {
 			erro.printStackTrace();
 		}
 	}
-	
+
 	private void exibirHistorico() throws Exception {
 		Compra compraProcurada = new Compra();
 		compraProcurada.id = Integer.parseInt(textFieldIDdeCompra.getText());
