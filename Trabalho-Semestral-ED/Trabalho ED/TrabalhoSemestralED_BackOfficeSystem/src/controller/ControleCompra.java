@@ -1,21 +1,50 @@
 package controller;
 
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import br.edu.fateczl.fila.Fila;
 import model.ListaEncadeada;
 import model_main.ClientePessoaFisica;
 import model_main.Compra;
 import model_main.Produto;
+import model_main.TipoProduto;
 
 public class ControleCompra {
+	
+	private JTextField textFieldCadastroPessoa;
+	private boolean flagPessoa;
+	
+	public ControleCompra(JTextField textField, boolean flagPessoa) {
+		this.textFieldCadastroPessoa = textField;
+		if(flagPessoa) {
+			this.flagPessoa = true;
+		} else {
+			this.flagPessoa = false;
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		String botaoSelec = e.getActionCommand();
+		try {
+			if (botaoSelec.equals("FINALIZAR")) {
+				vincularCliente();
+			}
+		} catch (Exception erro) {
+			erro.printStackTrace();
+		}
+	}
 	
 	public void exibirCompra() {
 		int id = 0;
@@ -81,7 +110,56 @@ public class ControleCompra {
 		
 	}
 	
-	public void vincularCliente(Fila<Produto>Carrinho, ClientePessoaFisica Pessoa) {
+	private void vincularCliente() throws Exception, IOException {
+		File arquivoPessoa;
+		if(flagPessoa) {
+			arquivoPessoa = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
+		} else {
+			arquivoPessoa = new File("C:\\PastaTrabalhoED", "ClientesPessoaJuridica.csv");
+		}
+		boolean encontrado = false;
+		try (BufferedReader bufferLeitura = new BufferedReader(new FileReader(arquivoPessoa))) {
+			String linha = bufferLeitura.readLine();
+
+			while (linha != null) {// percorre o arquivo
+				String[] colunasDoCSV = linha.split(";");
+				if (colunasDoCSV[0].equals(textFieldCadastroPessoa.getText())) {
+					inserirClienteCSVCarrinho();
+					encontrado = true;
+				}
+
+				linha = bufferLeitura.readLine();
+			}
+		}
+		if (!encontrado) {
+			JOptionPane.showMessageDialog(null, "CLIENTE NÃO ENCONTRADO");
+		}
+	}
+	
+	private void inserirClienteCSVCarrinho() {
+		try {
+			File dir = new File("C:\\PastaTrabalhoED");
+			File arquivo = new File(dir , "CarrinhoDeCompras.csv");
+			if (dir.exists() && dir.isDirectory()) {// existe e é um diretório?
+				boolean exist = false;// padrão nn existe
+				if (arquivo.exists()) {// Arquivo existe?
+					exist = true;// chumba que existe
+				}
+				FileWriter filewriter = new FileWriter(arquivo, exist);
+				PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
+				print.write(textFieldCadastroPessoa.getText());
+				print.flush();// termina a escrita
+				print.close();
+				filewriter.close();
+			} else {
+				throw new IOException("Diretório Inválido");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+
+	private void vincularCliente(Fila<Produto>Carrinho, ClientePessoaFisica Pessoa) throws Exception {
 		Fila<Produto>aux = Carrinho;
 		StringBuffer buffer = new StringBuffer();
 		Produto p;
@@ -106,8 +184,19 @@ public class ControleCompra {
 	}
 	
 	private int geraId() {
-		int id = 0;
+		int contador = 0;
+		int tamanho = listaTipoProduto.size();
+		for(int i = 0; i < tamanho; i++) {
+			TipoProduto tipoProduto = listaTipoProduto.getValue(i);
+			if(contador != tipoProduto.id) {
+				return contador;
+			}
+			contador++;
+		}
+		return contador;
+	}
+	
+	public void contruirCompra() {
 		
-		return id;
 	}
 }

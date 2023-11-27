@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,6 +40,11 @@ public class TelaInicial extends BaseFrame {
 					frame.setVisible(true);
 					frame.setResizable(false);
 					BaseDados();
+					File arq = new File("C:\\PastaTrabalhoED", "Produto.csv");
+					if(arq.exists()) {
+						ControleProduto op = new ControleProduto();
+						op.destruirCarrinho();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

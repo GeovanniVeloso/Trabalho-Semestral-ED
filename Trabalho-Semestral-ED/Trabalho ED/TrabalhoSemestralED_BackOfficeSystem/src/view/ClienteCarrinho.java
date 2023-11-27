@@ -21,6 +21,7 @@ import javax.swing.text.PlainDocument;
 
 import controller.ControleClientePF;
 import controller.ControleClientePJ;
+import controller.ControleCompra;
 import controller.ControleProduto;
 import model.ListaEncadeada;
 import model_main.Produto;
@@ -135,6 +136,7 @@ public class ClienteCarrinho extends BaseFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Obtenha o item selecionado no combobox
 				String selectedItem = (String) comboBox.getSelectedItem();
+				boolean flagPessoa = false;
 
 				// Verifique se os campos estão vazios
 				if ((textFieldCpf.isEnabled() && textFieldCpf.getText().isEmpty())
@@ -145,12 +147,13 @@ public class ClienteCarrinho extends BaseFrame {
 
 				// Faça algo com o item selecionado
 				if ("CPF".equals(selectedItem)) {
-					//Controle do maycon
-					controleClientePF.actionPerformed(e);
+					flagPessoa = true;
+					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa);
+					opCC.actionPerformed(e);
 					dispose();
 				} else if ("CNPJ".equals(selectedItem)) {
-					//Controle do maycon
-					controleClientePJ.actionPerformed(e);
+					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa);
+					opCC.actionPerformed(e);
 					dispose();
 				}
 				

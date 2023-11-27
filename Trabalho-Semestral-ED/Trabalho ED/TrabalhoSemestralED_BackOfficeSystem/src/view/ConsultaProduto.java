@@ -113,8 +113,6 @@ public class ConsultaProduto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
 				cp1.actionPerformed(e);
-				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
-						JOptionPane.PLAIN_MESSAGE);
 			}
 		});
  

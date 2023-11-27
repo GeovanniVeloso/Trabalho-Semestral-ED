@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.text.PlainDocument;
 
 import controller.ControleClientePF;
 import controller.ControleClientePJ;
+import controller.ControleProduto;
 
 public class ConsultaCliente extends BaseFrame {
 
@@ -162,7 +164,6 @@ public class ConsultaCliente extends BaseFrame {
 				}
 				ConsultaCliente conClientejFrame = new ConsultaCliente();
 				conClientejFrame.setVisible(true);
-
 				// Fecha o frame atual, se necessário
 				setVisible(false);
 				dispose();

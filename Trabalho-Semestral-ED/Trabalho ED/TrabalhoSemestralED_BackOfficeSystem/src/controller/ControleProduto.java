@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,11 +21,14 @@ import javax.swing.JTextField;
 import br.edu.fatec.zl.stack.Stack;
 import br.edu.fateczl.fila.Fila;
 import model.ListaEncadeada;
+import model_main.ClientePessoaFisica;
+import model_main.Compra;
 import model_main.Produto;
 import model_main.TipoProduto;
 
 public class ControleProduto implements ActionListener {
 
+	private static final String Finally = null;
 	@SuppressWarnings("unchecked")
 	public ListaEncadeada<Produto>[] hashTable = new ListaEncadeada[100];
 	public ListaEncadeada<TipoProduto> listaTipoProduto = new ListaEncadeada<TipoProduto>();
@@ -230,6 +234,8 @@ public class ControleProduto implements ActionListener {
 			JOptionPane.showMessageDialog(null, "PRODUTO NÃO ENCONTRADO.");
 		} else {
 			criarCSV(carrinho);
+			JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
+					JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 
@@ -426,6 +432,18 @@ public class ControleProduto implements ActionListener {
 				flux.close();
 			}
 		}
+	}
+	
+	public void destruirCarrinho() throws Exception {
+		File dir = new File("C:\\PastaTrabalhoED");
+		File arquivo = new File(dir , "CarrinhoDeCompras.csv");
+		write();
+		try {
+			arquivo.delete();
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(null, "Nao foi possivel destruir o carrinho de compras.", 
+					"Erro ao destruir carrinho", JOptionPane.ERROR_MESSAGE);
+		} 
 	}
 
 	public void verificarBaseDados() throws Exception {
