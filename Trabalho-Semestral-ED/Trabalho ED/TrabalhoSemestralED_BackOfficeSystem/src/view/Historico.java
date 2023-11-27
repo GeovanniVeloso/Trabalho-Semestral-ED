@@ -20,6 +20,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import controller.ControleCompra;
 import controller.TipoProdutoController;
 import model.ListaEncadeada;
 import model_main.TipoProduto;
@@ -28,7 +29,8 @@ import model_main.TipoProduto;
 public class Historico extends BaseFrame {
 
 	private JPanel contentPane_1;
-	private JTextField textFieldNomeTipoProdutoEspecifica;
+	private JTextField textFieldIDdeCompra;
+	private JTextArea textAreaResultadoConsultaHistorico;
 	/**
 	 * Launch the application.
 	 */
@@ -64,11 +66,11 @@ public class Historico extends BaseFrame {
 		
 		
 		// 	AlphaNumericTextField textFieldLogradouroCpf = new AlphaNumericTextField();
-		 textFieldNomeTipoProdutoEspecifica = createNumericTextField();
-		textFieldNomeTipoProdutoEspecifica.setToolTipText("DIGITE O ID DA COMPRA");
-		textFieldNomeTipoProdutoEspecifica.setBounds(167, 102, 217, 25);
-		contentPane_1.add(textFieldNomeTipoProdutoEspecifica);
-		textFieldNomeTipoProdutoEspecifica.setColumns(10);
+		 textFieldIDdeCompra = createNumericTextField();
+		textFieldIDdeCompra.setToolTipText("DIGITE O ID DA COMPRA");
+		textFieldIDdeCompra.setBounds(167, 102, 217, 25);
+		contentPane_1.add(textFieldIDdeCompra);
+		textFieldIDdeCompra.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("RESULTADO DA SUA CONSULTA");
@@ -77,7 +79,7 @@ public class Historico extends BaseFrame {
 		scrollPane.setBounds(266, 185, 398, 90);
 		contentPane_1.add(scrollPane);
 		
-		JTextArea textAreaResultadoConsultaHistorico = new JTextArea();
+		textAreaResultadoConsultaHistorico = new JTextArea();
 		textAreaResultadoConsultaHistorico.setEditable(false);
 		scrollPane.setViewportView(textAreaResultadoConsultaHistorico);
 		textAreaResultadoConsultaHistorico.setToolTipText("O RESULTADO DA CONSULTA SAIRA AQUI");
@@ -102,17 +104,14 @@ public class Historico extends BaseFrame {
 		btnConsultarHistorico.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnConsultarHistorico.setBounds(550, 286, 114, 30);
 		contentPane_1.add(btnConsultarHistorico);
-		
-        ListaEncadeada<TipoProduto> listaTipoProduto = new ListaEncadeada<>();
-		TipoProdutoController methodsTipoProduto = new TipoProdutoController(textAreaResultadoConsultaHistorico, textFieldNomeTipoProdutoEspecifica
-													, listaTipoProduto);
 
 		btnConsultarHistorico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textFieldNomeTipoProdutoEspecifica.getText().isEmpty()) {
+				if(textFieldIDdeCompra.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Campo não preenchido", "Erro", JOptionPane.ERROR_MESSAGE);
 				} else {
-					methodsTipoProduto.actionPerformed(e);
+					ControleCompra opCC = new ControleCompra(textFieldIDdeCompra, textAreaResultadoConsultaHistorico);
+					
 				}
 		}
 			

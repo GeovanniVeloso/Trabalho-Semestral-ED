@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import br.edu.fateczl.fila.Fila;
@@ -28,6 +29,8 @@ public class ControleCompra {
 	private JTextField textFieldCadastroPessoa;
 	private boolean flagPessoa;
 	private ListaEncadeada<Produto> produtosCarrinho;
+	private JTextField textFieldIDdeCompra;
+	private JTextArea textAreaResultadoConsultaHistorico;
 	
 	public ControleCompra(JTextField textField, boolean flagPessoa, ListaEncadeada<Produto> produtosCarrinho) {
 		this.textFieldCadastroPessoa = textField;
@@ -38,11 +41,19 @@ public class ControleCompra {
 		}
 	}
 	
+	public ControleCompra(JTextField textFieldIDdeCompra, JTextArea textAreaResultadoConsultaHistorico) {
+		this.textFieldIDdeCompra = textFieldIDdeCompra;
+		this.textAreaResultadoConsultaHistorico = textAreaResultadoConsultaHistorico;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		String botaoSelec = e.getActionCommand();
 		try {
 			if (botaoSelec.equals("FINALIZAR")) {
 				vincularCliente(produtosCarrinho);
+			}
+			if (botaoSelec.equals("consultar")) {
+				exibirHistorico();
 			}
 		} catch (Exception erro) {
 			erro.printStackTrace();
