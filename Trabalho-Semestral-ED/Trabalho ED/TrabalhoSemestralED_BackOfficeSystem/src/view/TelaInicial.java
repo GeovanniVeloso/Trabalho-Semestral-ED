@@ -91,12 +91,12 @@ public class TelaInicial extends BaseFrame {
 		lblCliente.setBounds(46, 34, 139, 27);
 		panelCliente.add(lblCliente);
 
-		JButton btnClienteCheckout = new JButton("CHECKOUT");
-		btnClienteCheckout.setBounds(20, 192, 165, 23);
-		panelCliente.add(btnClienteCheckout);
-		btnClienteCheckout.setToolTipText("CHECKOUT");
-		btnClienteCheckout.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnClienteCheckout.setBackground(Color.WHITE);
+		JButton btnClienteHistorico = new JButton("HISTORICO");
+		btnClienteHistorico.setBounds(20, 192, 165, 23);
+		panelCliente.add(btnClienteHistorico);
+		btnClienteHistorico.setToolTipText("HISTORICO");
+		btnClienteHistorico.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnClienteHistorico.setBackground(Color.WHITE);
 
 		JPanel panelProduto = new JPanel();
 		panelProduto.setForeground(new Color(255, 255, 255));
@@ -175,7 +175,7 @@ public class TelaInicial extends BaseFrame {
 		contentPane.add(lblTelaInicial);
 
 		JButton btnCarrinho = new JButton("CARRINHO");
-		btnCarrinho.setBounds(529, 19, 114, 23);
+		btnCarrinho.setBounds(509, 19, 134, 23);
 		contentPane.add(btnCarrinho);
 		btnCarrinho.setToolTipText("CARRINHO");
 		btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -237,14 +237,14 @@ public class TelaInicial extends BaseFrame {
 				dispose();
 			}
 		});
-		btnClienteCheckout.addActionListener(new ActionListener() {
+		btnClienteHistorico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//////TODO:AMOS VAI MUDAR
-//				Checkout CheckoutjFrame = new Checkout();
-//				CheckoutjFrame.setVisible(true);
+				
+				Historico historicojFrame = new Historico();
+				historicojFrame.setVisible(true);
 
-				// Fecha o frame atual, se necessário
+				
 				setVisible(false);
 				dispose();
 			}
