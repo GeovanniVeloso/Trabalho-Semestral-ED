@@ -26,6 +26,30 @@ public class Produto {
 	public String toString() {
 		return prodId + ";" + nome + ";" + valor + ";" + desc + ";" + qntdEstoque;
 	}
+
+	public void setProdId(int prodId) {
+		this.prodId = prodId;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public void setQntdEstoque(int qntdEstoque) {
+		this.qntdEstoque = qntdEstoque;
+	}
+
+	public void setIndice(int indice) {
+		this.indice = indice;
+	}
 	
 	
 
