@@ -31,6 +31,8 @@ public class ControleCompra {
 	private ListaEncadeada<Produto> produtosCarrinho;
 	private JTextField textFieldIDdeCompra;
 	private JTextArea textAreaResultadoConsultaHistorico;
+	private File diretorio = new File("C:\\PastaTrabalhoED");
+	File arquivo = new File(diretorio, "HistoricoCompras.csv");
 	
 	public ControleCompra(JTextField textField, boolean flagPessoa, ListaEncadeada<Produto> produtosCarrinho) {
 		this.textFieldCadastroPessoa = textField;
@@ -55,12 +57,42 @@ public class ControleCompra {
 			if (botaoSelec.equals("consultar")) {
 				exibirHistorico();
 			}
-//			if (botaoSelec.equals("))
+			if (botaoSelec.equals("Finalizar Compra")) {
+				
+			}
 		} catch (Exception erro) {
 			erro.printStackTrace();
 		}
 	}
 
+	private void criarHistorico() throws Exception {
+		criarCSVHistorico();
+		preencherCSVHistorico();
+		
+	}
+
+	private void criarCSVHistorico() throws Exception {
+		if (!diretorio.exists() || !diretorio.isDirectory()) {
+			diretorio.mkdirs(); 
+		}
+		if(!arquivo.exists() || !arquivo.isFile()) {
+			arquivo.createNewFile();
+		}	
+	}
+	
+	private void preencherCSVHistorico() {
+		if(!arquivo.exists() || !arquivo.isFile()) {
+			StringBuffer buffer = new StringBuffer();
+			
+			FileWriter fileWriter = new FileWriter(arquivo);
+			PrintWriter print = new PrintWriter(fileWriter);
+			print.write(conteudo);
+			print.flush();
+			print.close();
+			fileWriter.close();
+		}	
+	}
+	
 	private void exibirHistorico() throws Exception {
 		Compra compraProcurada = new Compra();
 		compraProcurada.id = Integer.parseInt(textFieldIDdeCompra.getText());
@@ -103,69 +135,6 @@ public class ControleCompra {
 		return historico;
 	}
 
-	public void exibirCompra() {
-		int id = 0;
-		readCompras();
-		boolean teste = false;
-		ListaEncadeada<Compra>Compras
-		int size = Compras.size();
-		int i = 0;
-		while(i < size || teste == true) {
-			if(Compras.id == id) {
-				
-				i = size;
-				teste = true;
-			}
-		}
-		if(teste == false) {
-			JOptionPane.showInputDialog("COMPRA NAO ENCONTRADA.");
-		}
-	}
- 
-	public void salvarCompra() throws Exception {
-		File arquivo = new File("C:\\PastaTrabalhoED", "HistoricoCompras.csv");
-		int size = hashTable.length;
-		if (!arquivo.exists() && !arquivo.isFile()) {
-			arquivo.createNewFile();
-		}
-		Compra c;
-		StringBuffer buffer = new StringBuffer();
-			int tamanho = Compras.size();
-			int i = 0;
-			while (i < tamanho) {
-				c = Compras.getValue(i);
-				buffer.append(c.toString + "\r\n");
-				i = i + 1;
-			}
-		String thing = buffer.toString();
-		FileWriter fileWriter = new FileWriter(arquivo);
-		PrintWriter print = new PrintWriter(fileWriter);
-		print.write(thing);
-		print.flush();
-		print.close();
-		fileWriter.close();
-	}
-	
-	public void readCompras() throws Exception {
-		File arq = new File("C:\\PastaTrabalhoED", "Produto.csv");
-		Compra c;
-			if (arq.exists() && arq.isFile()) {
-				FileInputStream flux = new FileInputStream(arq);
-				InputStreamReader reader = new InputStreamReader(flux);
-				BufferedReader buffer = new BufferedReader(reader);
-				String linha = buffer.readLine();
-				while (linha != null) {
-					String[] vet = linha.split(";");
-					c = new Compra(Integer.parseInt(vet[0]),vet[1]);
-					Compras.addFirst(c);
-					linha = buffer.readLine();
-				}
-				buffer.close();
-				reader.close();
-				flux.close();
-			}
-		
-	}
 	
 	private void vincularCliente(ListaEncadeada<Produto> produtosCarrinho) throws Exception, IOException {
 		File arquivoPessoa;
