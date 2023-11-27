@@ -180,12 +180,8 @@ public class ControleProduto implements ActionListener {
 			File dir = new File("C:\\PastaTrabalhoED");
 			File arquivo = new File(dir , "CarrinhoDeCompras.csv");
 			if (dir.exists() && dir.isDirectory()) {// existe e é um diretório?
-				boolean exist = false;// padrão nn existe
-				if (arquivo.exists()) {// Arquivo existe?
-					exist = true;// chumba que existe
-				}
  
-				FileWriter filewriter = new FileWriter(arquivo, exist);
+				FileWriter filewriter = new FileWriter(arquivo);
 				PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
  
 				for (int i = 0; i < carrinho.size(); i++) {
@@ -212,6 +208,10 @@ public class ControleProduto implements ActionListener {
 	// Adiciona o produto ao carrinho caso ele exista e tenha um número em estoque
 	// igual ou superior a quantidade solicitada.
 	private void addcarinho() throws Exception {
+		while(!carrinho.isEmpty()) {
+			carrinho.removeFirst();
+		}
+		readCarrinho();
 		int id = Integer.parseInt(textFieldProdId.getText());
 		int hash = hash(normalizarTipoProduto(textFieldTipo.getText()));
 		ListaEncadeada<Produto> lista = hashTable[hash];
@@ -239,7 +239,29 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
-
+	private void readCarrinho() throws IOException {
+		File dir = new File("C:\\PastaTrabalhoED");
+		File arq = new File(dir, "CarrinhoDeCompras.csv");
+		Produto p;
+		if (dir.exists() && dir.isDirectory()) {
+			if (arq.exists() && arq.isFile()) {
+				FileInputStream flux = new FileInputStream(arq);
+				InputStreamReader reader = new InputStreamReader(flux);
+				BufferedReader buffer = new BufferedReader(reader);
+				String linha = buffer.readLine();
+				while (linha != null) {
+					String[] vet = linha.split(";");
+					p = new Produto(Integer.parseInt(vet[0]), vet[1], Double.parseDouble(vet[2]), vet[3],
+							Integer.parseInt(vet[4]), 0);
+					carrinho.addFirst(p);
+					linha = buffer.readLine();
+				}
+				buffer.close();
+				reader.close();
+				flux.close();
+			}
+		}
+	}
 
 
 	// Verifica e mostra ao usuário os produtos do carrinho.
@@ -282,15 +304,13 @@ public class ControleProduto implements ActionListener {
 				i = size;
 			}
 		}
-		size = Carrinho.size();
 		StringBuffer buffer = new StringBuffer();
-			int tamanho = Carrinho.size();
-			int i = 0;
-			while (i < tamanho) {
-				p = Carrinho.getValue(i);
-				buffer.append(p.toString() + "\r\n");
-				i = i + 1;
-			}
+		int tamanho = Carrinho.size() - 1;
+		while (tamanho >= 0) {
+			p = Carrinho.getValue(tamanho);
+			buffer.append(p.toString() + "\r\n");
+			tamanho -= 1;
+		}
 		String thing = buffer.toString();
 		FileWriter fileWriter = new FileWriter(arq);
 		PrintWriter print = new PrintWriter(fileWriter);
