@@ -24,6 +24,7 @@ public class Checkout extends BaseFrame {
 	private JPanel contentPane;
 	private JTextField textFieldNomeCliente;
 	private JTextField textFieldValorCompra;
+	private JTextArea textAreaCheckout;
 
 	/**
 	 * Launch the application.
@@ -55,28 +56,32 @@ public class Checkout extends BaseFrame {
 		lblCompra.setBounds(10, 155, 270, 22);
 		contentPane.add(lblCompra);
 
-		JScrollPane scrollPaneCheckout = new JScrollPane();
-		scrollPaneCheckout.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPaneCheckout.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPaneCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
-		scrollPaneCheckout.setBounds(274, 157, 375, 116);
-		contentPane.add(scrollPaneCheckout);
-
 //		JTextArea textAreaCheckout = new JTextArea();
 //		textAreaCheckout.setEditable(false);
 //		textAreaCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
-		String teste = transformaListaParaString(produtosCarrinho);
+		String teste = null;
+		try {
+			teste = transformaListaParaString(produtosCarrinho);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println(teste);
-//		textAreaCheckout.setText(teste);
+        
 //		textAreaCheckout.setBounds(276, 157, 373, 116);
 //		contentPane.add(textAreaCheckout);
-
+		
+		// *Preenche Carrinho*//
 		JTextArea textAreaCheckout = new JTextArea();
+		textAreaCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT :");
 		textAreaCheckout.setEditable(false);
-		textAreaCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
+		try {
+			textAreaCheckout.setText(transformaListaParaString(produtosCarrinho));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		String teste = transformaListaParaString(produtosCarrinho);
-		textAreaCheckout.append(teste);
+//		textAreaCheckout.append(teste);
 		textAreaCheckout.setBounds(276, 157, 373, 116);
 		contentPane.add(textAreaCheckout);
 
@@ -148,20 +153,29 @@ public class Checkout extends BaseFrame {
 		});
 	}
 
-	private String transformaListaParaString(ListaEncadeada<Produto> carrinho) {
+	private String transformaListaParaString(ListaEncadeada<Produto> carrinho) throws Exception {
 		StringBuffer buffer = new StringBuffer();
-		for(int i = 0; i < carrinho.size(); i++) {
-			try {
-//				System.out.println("DENTRO DO FOR:   "+carrinho.getValue(i));
-				Produto p = carrinho.getValue(i);
-				buffer.append(p + "\n");
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		int tamanho = carrinho.size();
+		for(int i = 0; i < tamanho; i++) {
+			Produto produto = carrinho.getValue(i);
+			buffer.append("#" + produto.prodId + "     " + produto.nome + "     $" + produto.valor + "\r\n");
 		}
-//		System.out.println(buffer.toString());
-		return buffer.toString();
+		String conteudo = buffer.toString();
+		return conteudo;
+//		textAreaCarrinho.setText(conteudo);
+//		StringBuffer buffer = new StringBuffer();
+//		for(int i = 0; i < carrinho.size(); i++) {
+//			try {
+////				System.out.println("DENTRO DO FOR:   "+carrinho.getValue(i));
+//				Produto p = carrinho.getValue(i);
+//				buffer.append(p + "\n");
+//				
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+////		System.out.println(buffer.toString());
+//		return buffer.toString();
 		
 	}
 }
