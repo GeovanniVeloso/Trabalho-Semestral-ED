@@ -9,16 +9,15 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.ListaEncadeada;
 import model_main.Produto;
-import javax.swing.JTextField;
 
 public class Checkout extends BaseFrame {
 
@@ -33,7 +32,7 @@ public class Checkout extends BaseFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Checkout(ListaEncadeada<Produto> produtosCarrinho) {
+	public Checkout(ListaEncadeada<Produto> produtosCarrinho, String nomeCliente, String totalCompra) {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 690, 360);
@@ -63,9 +62,21 @@ public class Checkout extends BaseFrame {
 		scrollPaneCheckout.setBounds(274, 157, 375, 116);
 		contentPane.add(scrollPaneCheckout);
 
+//		JTextArea textAreaCheckout = new JTextArea();
+//		textAreaCheckout.setEditable(false);
+//		textAreaCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
+		String teste = transformaListaParaString(produtosCarrinho);
+		
+		System.out.println(teste);
+//		textAreaCheckout.setText(teste);
+//		textAreaCheckout.setBounds(276, 157, 373, 116);
+//		contentPane.add(textAreaCheckout);
+
 		JTextArea textAreaCheckout = new JTextArea();
 		textAreaCheckout.setEditable(false);
 		textAreaCheckout.setToolTipText("O RESULTADO DO SEU CHECKOUT");
+//		String teste = transformaListaParaString(produtosCarrinho);
+		textAreaCheckout.append(teste);
 		textAreaCheckout.setBounds(276, 157, 373, 116);
 		contentPane.add(textAreaCheckout);
 
@@ -90,6 +101,7 @@ public class Checkout extends BaseFrame {
 		
 		textFieldNomeCliente = new JTextField();
 		textFieldNomeCliente.setToolTipText("O NOME DO CLIENTE É");
+		textFieldNomeCliente.setText(nomeCliente);
 		textFieldNomeCliente.setEditable(false);
 		textFieldNomeCliente.setBounds(214, 79, 185, 22);
 		contentPane.add(textFieldNomeCliente);
@@ -102,7 +114,9 @@ public class Checkout extends BaseFrame {
 		contentPane.add(lblValorCompra);
 		
 		textFieldValorCompra = new JTextField();
-		textFieldValorCompra.setToolTipText("O VALOR DA COMPRA FOI");
+		textFieldValorCompra.setToolTipText("O VALOR DA COMPRA FOI: ");
+		textFieldValorCompra.setText(totalCompra);
+		textFieldValorCompra.setEditable(false);
 		textFieldValorCompra.setBounds(214, 124, 185, 20);
 		contentPane.add(textFieldValorCompra);
 		textFieldValorCompra.setColumns(10);
@@ -132,5 +146,22 @@ public class Checkout extends BaseFrame {
 
 			}
 		});
+	}
+
+	private String transformaListaParaString(ListaEncadeada<Produto> carrinho) {
+		StringBuffer buffer = new StringBuffer();
+		for(int i = 0; i < carrinho.size(); i++) {
+			try {
+//				System.out.println("DENTRO DO FOR:   "+carrinho.getValue(i));
+				Produto p = carrinho.getValue(i);
+				buffer.append(p + "\n");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+//		System.out.println(buffer.toString());
+		return buffer.toString();
+		
 	}
 }

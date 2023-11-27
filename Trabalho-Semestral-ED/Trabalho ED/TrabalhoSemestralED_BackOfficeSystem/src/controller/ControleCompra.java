@@ -169,7 +169,8 @@ public class ControleCompra {
 	
 	private void vincularCliente(ListaEncadeada<Produto> produtosCarrinho) throws Exception, IOException {
 		File arquivoPessoa;
-		if(flagPessoa) {
+		String nomeCliente = null;
+		if(flagPessoa) {// PF ou PJ
 			arquivoPessoa = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
 		} else {
 			arquivoPessoa = new File("C:\\PastaTrabalhoED", "ClientesPessoaJuridica.csv");
@@ -181,7 +182,8 @@ public class ControleCompra {
 			while (linha != null) {// percorre o arquivo
 				String[] colunasDoCSV = linha.split(";");
 				if (colunasDoCSV[0].equals(textFieldCadastroPessoa.getText())) {
-					inserirClienteCSVCarrinho();
+					nomeCliente = colunasDoCSV[1];
+//					inserirClienteCSVCarrinho();
 					encontrado = true;
 				}
 
@@ -191,16 +193,22 @@ public class ControleCompra {
 		//instancias das proximas telas
 		if (!encontrado) {
 			JOptionPane.showMessageDialog(null, "CLIENTE NÃO ENCONTRADO");
-			
+
 			ClienteCarrinho clienteCarrinho = new ClienteCarrinho(produtosCarrinho);
 			clienteCarrinho.setVisible(true);
 			
 		}else {
-			Checkout CheckoutjFrame = new Checkout(produtosCarrinho);
+			ListaEncadeada<Produto> carrinhoCheio = new ListaEncadeada<>();
+			carrinhoCheio = preencherCarrinhoCheio(carrinhoCheio);
+			
+			//passa cliente
+			double total = totalCompras(carrinhoCheio);		
+			String totalCompra = String.valueOf(total);
+			Checkout CheckoutjFrame = new Checkout(carrinhoCheio,nomeCliente, totalCompra);
 			CheckoutjFrame.setVisible(true);
 		}
 	}
-	
+
 	private void inserirClienteCSVCarrinho() {
 		try {
 			File dir = new File("C:\\PastaTrabalhoED");
@@ -224,12 +232,11 @@ public class ControleCompra {
 		} 
 	}
  
-	private double totalCompras(Fila<Produto> carrinho) throws Exception {
+	private double totalCompras(ListaEncadeada<Produto> carrinho) throws Exception {
 		double total = 0;
-		Produto p;
 		int size = carrinho.size();
 		for(int i = 0; i < size; i ++) {
-			p = carrinho.remove();
+			Produto p = carrinho.getValue(i);
 			total = total + p.valor;
 		}
 		return total;
@@ -248,6 +255,30 @@ public class ControleCompra {
 			contador++;
 		}
 		return contador;
+	}
+	
+	private ListaEncadeada<Produto> preencherCarrinhoCheio(ListaEncadeada<Produto> carrinhoCheio) throws Exception {
+		File arquivo = new File("C:\\PastaTrabalhoED", "CarrinhoDeCompras.csv");
+		if(arquivo.exists() && arquivo.isFile()) {
+			FileInputStream fluxo = new FileInputStream(arquivo);
+			InputStreamReader leitor = new InputStreamReader(fluxo);
+			BufferedReader buffer = new BufferedReader(leitor);
+			String linha = buffer.readLine();
+			while(linha != null) {	
+				String[] conteudo = linha.split(";");
+				Produto produto = new Produto(Integer.parseInt(conteudo[0]), conteudo[1], Double.parseDouble(conteudo[2]), null, 0, 0);
+				carrinhoCheio.addLast(produto);
+				linha = buffer.readLine();
+			}
+			buffer.close();
+			leitor.close();
+			fluxo.close();
+		} else {	
+			JOptionPane.showMessageDialog(null, "Nao foi possivel encontrar a base de dados do sistema", 
+												"Erro na busca do arquivo CSV", JOptionPane.ERROR_MESSAGE);
+		}	
+		return carrinhoCheio;
+	
 	}
 
 }

@@ -152,7 +152,7 @@ public class ClienteCarrinho extends BaseFrame {
 					opCC.actionPerformed(e);
 					dispose();
 				} else if ("CNPJ".equals(selectedItem)) {
-					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa, produtosCarrinho);
+					ControleCompra opCC = new ControleCompra(textFieldCnpj, flagPessoa, produtosCarrinho);
 					opCC.actionPerformed(e);
 					dispose();
 				}

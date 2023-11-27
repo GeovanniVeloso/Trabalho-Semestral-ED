@@ -66,8 +66,9 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
-	public ControleProduto() {
+	public ControleProduto(){
 		super();
+		
 
 		int tamanho = hashTable.length;
 		for (int i = 0; i < tamanho; i++) {
