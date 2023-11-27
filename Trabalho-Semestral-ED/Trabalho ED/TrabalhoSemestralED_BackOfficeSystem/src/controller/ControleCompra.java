@@ -77,7 +77,7 @@ public class ControleCompra {
 			}	
 		}	
 		if (!compraExiste) {
-			JOptionPane.showMessageDialog(null, "ID de compra invalido. Nao possivel encontrar a compra",
+			JOptionPane.showMessageDialog(null, "ID de compra invalido. Nao possivel encontrar a compra.",
 					"Compra nao identificada", JOptionPane.PLAIN_MESSAGE);
 		}	
 	}
@@ -98,10 +98,7 @@ public class ControleCompra {
 			buffer.close();
 			leitor.close();
 			fluxo.close();
-		} else {	
-			JOptionPane.showMessageDialog(null, "Nao foi possivel encontrar nenhuma compra no historico da base de dados do sistema", 
-												"Historico vazio", JOptionPane.ERROR_MESSAGE);
-		}	
+		} 
 		return historico;
 	}
 
@@ -225,19 +222,6 @@ public class ControleCompra {
 			e.printStackTrace();
 		} 
 	}
-
-	private void vincularCliente(Fila<Produto>Carrinho, ClientePessoaFisica Pessoa) throws Exception {
-		Fila<Produto>aux = Carrinho;
-		StringBuffer buffer = new StringBuffer();
-		Produto p;
-		int size = Carrinho.size();
-		for(int i = 0; i < size; i ++) {
-			p = aux.remove();
-			buffer.append(p.nome + " " + p.valor);
-		}
-		String conteudo = buffer.toString();
-		Compra c = new Compra (geraId(), Pessoa.Nome, totalCompras(Carrinho), conteudo );
-	}
  
 	private double totalCompras(Fila<Produto> carrinho) throws Exception {
 		double total = 0;
@@ -250,20 +234,19 @@ public class ControleCompra {
 		return total;
 	}
 	
-	private int geraId() {
+	private int gerarId() throws Exception {
+		ListaEncadeada<Compra> historico = new ListaEncadeada<>();
+		historico = pegarHistorico(historico);
 		int contador = 0;
 		int tamanho = historico.size();
 		for(int i = 0; i < tamanho; i++) {
-			TipoProduto tipoProduto = historico.getValue(i);
-			if(contador != tipoProduto.id) {
+			Compra compra = historico.getValue(i);
+			if(contador != compra.id) {
 				return contador;
 			}
 			contador++;
 		}
 		return contador;
 	}
-	
-	public void contruirCompra() {
-		
-	}
+
 }
