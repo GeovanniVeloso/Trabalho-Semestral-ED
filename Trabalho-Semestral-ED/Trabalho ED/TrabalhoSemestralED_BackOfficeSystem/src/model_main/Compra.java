@@ -19,7 +19,7 @@ public class Compra {
 	}
 
 	public String toString() {
-		return id + ";" + cliente + ";" + valorTotal + ";" + itens;
+		return "#" + id + "\tCliente: " + cliente + "\t$" + valorTotal + "\t" + itens;
 	}
 
 }

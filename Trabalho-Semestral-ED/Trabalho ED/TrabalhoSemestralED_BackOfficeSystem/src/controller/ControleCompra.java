@@ -60,6 +60,51 @@ public class ControleCompra {
 		}
 	}
 	
+	private void exibirHistorico() throws Exception {
+		Compra compraProcurada = new Compra();
+		compraProcurada.id = Integer.parseInt(textFieldIDdeCompra.getText());
+		boolean compraExiste = false;
+		ListaEncadeada<Compra> historico = new ListaEncadeada<>();
+		historico = pegarHistorico(historico);
+		int tamanho = historico.size();
+		for(int i = 0; i < tamanho; i++) {
+			Compra compra = historico.getValue(i);
+			if(compra.id == compraProcurada.id) {
+				compraExiste = true;
+				textAreaResultadoConsultaHistorico.setText(compra.toString());
+				JOptionPane.showMessageDialog(null, "Consulta Realizada com Sucesso", "Sucesso!", JOptionPane.PLAIN_MESSAGE);
+				break;
+			}	
+		}	
+		if (!compraExiste) {
+			JOptionPane.showMessageDialog(null, "ID de compra invalido. Nao possivel encontrar a compra",
+					"Compra nao identificada", JOptionPane.PLAIN_MESSAGE);
+		}	
+	}
+
+	private ListaEncadeada<Compra> pegarHistorico(ListaEncadeada<Compra> historico) throws Exception {
+		File arquivo = new File("C:\\PastaTrabalhoED", "HistoricoCompras.csv");
+		if(arquivo.exists() && arquivo.isFile()) {
+			FileInputStream fluxo = new FileInputStream(arquivo);
+			InputStreamReader leitor = new InputStreamReader(fluxo);
+			BufferedReader buffer = new BufferedReader(leitor);
+			String linha = buffer.readLine();
+			while(linha != null) {	
+				String[] conteudo = linha.split(";");
+				Compra compra = new Compra(Integer.parseInt(conteudo[0]), conteudo[1], Double.parseDouble(conteudo[2]), conteudo[3]);
+				historico.addLast(compra);
+				linha = buffer.readLine();
+			}
+			buffer.close();
+			leitor.close();
+			fluxo.close();
+		} else {	
+			JOptionPane.showMessageDialog(null, "Nao foi possivel encontrar nenhuma compra no historico da base de dados do sistema", 
+												"Historico vazio", JOptionPane.ERROR_MESSAGE);
+		}	
+		return historico;
+	}
+
 	public void exibirCompra() {
 		int id = 0;
 		readCompras();
@@ -207,9 +252,9 @@ public class ControleCompra {
 	
 	private int geraId() {
 		int contador = 0;
-		int tamanho = listaTipoProduto.size();
+		int tamanho = historico.size();
 		for(int i = 0; i < tamanho; i++) {
-			TipoProduto tipoProduto = listaTipoProduto.getValue(i);
+			TipoProduto tipoProduto = historico.getValue(i);
 			if(contador != tipoProduto.id) {
 				return contador;
 			}
