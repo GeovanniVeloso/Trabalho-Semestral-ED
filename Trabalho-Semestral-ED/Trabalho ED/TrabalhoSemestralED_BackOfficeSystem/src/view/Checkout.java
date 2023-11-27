@@ -119,12 +119,16 @@ public class Checkout extends BaseFrame {
 		btnFinalizarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Perform the check for empty text fields
+				
+				
 				// Destrói carrinho
 				File arquivo = new File("C:\\PastaTrabalhoED", "CarrinhoDeCompras.csv");
 				arquivo.delete();
 
+				//Manda pra tela inicial
 				TelaInicial frame = new TelaInicial();
 				frame.setVisible(true);
+				dispose();
 
 			}
 		});

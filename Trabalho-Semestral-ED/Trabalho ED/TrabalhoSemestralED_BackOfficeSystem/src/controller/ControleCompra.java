@@ -20,13 +20,16 @@ import model_main.ClientePessoaFisica;
 import model_main.Compra;
 import model_main.Produto;
 import model_main.TipoProduto;
+import view.Checkout;
+import view.ClienteCarrinho;
 
 public class ControleCompra {
 	
 	private JTextField textFieldCadastroPessoa;
 	private boolean flagPessoa;
+	private ListaEncadeada<Produto> produtosCarrinho;
 	
-	public ControleCompra(JTextField textField, boolean flagPessoa) {
+	public ControleCompra(JTextField textField, boolean flagPessoa, ListaEncadeada<Produto> produtosCarrinho) {
 		this.textFieldCadastroPessoa = textField;
 		if(flagPessoa) {
 			this.flagPessoa = true;
@@ -39,7 +42,7 @@ public class ControleCompra {
 		String botaoSelec = e.getActionCommand();
 		try {
 			if (botaoSelec.equals("FINALIZAR")) {
-				vincularCliente();
+				vincularCliente(produtosCarrinho);
 			}
 		} catch (Exception erro) {
 			erro.printStackTrace();
@@ -110,7 +113,7 @@ public class ControleCompra {
 		
 	}
 	
-	private void vincularCliente() throws Exception, IOException {
+	private void vincularCliente(ListaEncadeada<Produto> produtosCarrinho) throws Exception, IOException {
 		File arquivoPessoa;
 		if(flagPessoa) {
 			arquivoPessoa = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
@@ -131,8 +134,16 @@ public class ControleCompra {
 				linha = bufferLeitura.readLine();
 			}
 		}
+		//instancias das proximas telas
 		if (!encontrado) {
 			JOptionPane.showMessageDialog(null, "CLIENTE NÃO ENCONTRADO");
+			
+			ClienteCarrinho clienteCarrinho = new ClienteCarrinho(produtosCarrinho);
+			clienteCarrinho.setVisible(true);
+			
+		}else {
+			Checkout CheckoutjFrame = new Checkout(produtosCarrinho);
+			CheckoutjFrame.setVisible(true);
 		}
 	}
 	

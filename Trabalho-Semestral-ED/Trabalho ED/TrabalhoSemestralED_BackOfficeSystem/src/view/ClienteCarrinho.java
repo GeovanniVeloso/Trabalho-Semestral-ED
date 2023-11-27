@@ -148,17 +148,14 @@ public class ClienteCarrinho extends BaseFrame {
 				// Faça algo com o item selecionado
 				if ("CPF".equals(selectedItem)) {
 					flagPessoa = true;
-					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa);
+					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa, produtosCarrinho);
 					opCC.actionPerformed(e);
 					dispose();
 				} else if ("CNPJ".equals(selectedItem)) {
-					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa);
+					ControleCompra opCC = new ControleCompra(textFieldCpf, flagPessoa, produtosCarrinho);
 					opCC.actionPerformed(e);
 					dispose();
 				}
-				
-				Checkout CheckoutjFrame = new Checkout(produtosCarrinho);
-				CheckoutjFrame.setVisible(true);
 
 				// Fecha o frame atual, se necessário
 				setVisible(false);
