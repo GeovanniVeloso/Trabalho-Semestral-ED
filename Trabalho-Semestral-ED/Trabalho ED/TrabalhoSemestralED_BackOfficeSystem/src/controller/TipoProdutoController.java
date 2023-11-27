@@ -65,8 +65,6 @@ public class TipoProdutoController implements ActionListener {
 			}
 		}
 	}
-    
-    
 	
 	//Construtor Tela Excluir Tipo Produto
 	public TipoProdutoController(JTextField tfNomeTipoProduto, ListaEncadeada<TipoProduto> listaTipoProduto) {

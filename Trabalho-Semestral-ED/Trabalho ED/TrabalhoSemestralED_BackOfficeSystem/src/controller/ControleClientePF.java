@@ -25,10 +25,28 @@ public class ControleClientePF implements ActionListener {
 	private JTextField textFieldCPF;
 	private JTextField textFieldComplementoCPF;
 	private JTextField textFieldCEP;
+	private File diretorio = new File("C:\\PastaTrabalhoED");
+	private File arquivo = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
+	
+	public ControleClientePF() {
+		super();
+		try {
+			verificarBaseDados();
+		} catch (Exception e) {
+			String msgError = e.getMessage();
+			JOptionPane.showMessageDialog(null, msgError);
+		}
+	}
 
 	// Construtor
 	public ControleClientePF(JTextField textFieldCPF) {
 		this.textFieldCPF = textFieldCPF;
+		try {
+			verificarBaseDados();
+		} catch (Exception e) {
+			String msgError = e.getMessage();
+			JOptionPane.showMessageDialog(null, msgError);
+		}
 	}
 	
 	// Contrutor
@@ -43,6 +61,12 @@ public class ControleClientePF implements ActionListener {
 		this.textFieldNumero = textFieldNumero;
 		this.textFieldComplementoCPF = textFieldComplementoCPF;
 		this.textFieldCEP = textFieldCEP;
+		try {
+			verificarBaseDados();
+		} catch (Exception e) {
+			String msgError = e.getMessage();
+			JOptionPane.showMessageDialog(null, msgError);
+		}
 	}
 
 	@Override
@@ -83,8 +107,6 @@ public class ControleClientePF implements ActionListener {
 		// System.out.println(pessoaFisica);
 		String conteudoObjeto = pessoaFisica.toString();
 
-		File diretorio = new File("C:\\PastaTrabalhoED");
-		File arquivo = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
 
 		if (diretorio.isDirectory() && diretorio.exists()) {
 			CriaOuAcrescentaNoArquivo(arquivo, conteudoObjeto);
@@ -97,7 +119,6 @@ public class ControleClientePF implements ActionListener {
 	}
 
 	private void Consulta() throws IOException {
-		File arquivo = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
 		boolean encontrado = false;
 		try (BufferedReader bufferLeitura = new BufferedReader(new FileReader(arquivo))) {
 			String linha = bufferLeitura.readLine();
@@ -124,7 +145,6 @@ public class ControleClientePF implements ActionListener {
 
 	private void excluir() throws Exception {
 		ListaEncadeada<String> linhasParaManter = new ListaEncadeada<>();
-		File arquivo = new File("C:\\PastaTrabalhoED", "ClientesPessoaFísica.csv");
 
 		if (arquivo.exists() && arquivo.isFile()) {
 			boolean encontrado = false;
@@ -189,5 +209,37 @@ public class ControleClientePF implements ActionListener {
 		}
 
 	}
-
+	
+	public void verificarBaseDados() throws Exception {
+		if (!diretorio.exists() || !diretorio.isDirectory()) {
+			diretorio.mkdirs(); 
+		}
+		if(!arquivo.exists() || !arquivo.isFile()) {
+			String conteudo = gerarDadosOriginais();
+			FileWriter fileWriter = new FileWriter(arquivo);
+			PrintWriter print = new PrintWriter(fileWriter);
+			print.write(conteudo);
+			print.flush();
+			print.close();
+			fileWriter.close();
+		}			
+	}
+	
+	private String gerarDadosOriginais() {
+		String[] CPF = {"12345678910", "12345678901", "98765432100", "13579864201", "24689753110"};
+		String[] Nome = {"JOAO", "MARIA", "JOSE", "RICARDO", "ANA"};
+		String[] Logradouro = {"RUA A", "RUA B", "RUA C", "RUA D", "RUA E"};
+		String[] Complemento = {"APT 101", "APT 202", "APT 303", "APT 404", "APT 505"};
+		String[] CEP = {"12345678", "87654321", "90909090", "13579975", "24686420"};
+		String[] Celular = {"123456789", "987654321", "101010101", "246846220", "135797531"};
+		StringBuffer buffer = new StringBuffer();
+		for(int i = 0; i < 5; i++) {
+			buffer.append(CPF[i] + ";" + Nome[i] + ";" + Logradouro[i] + ";" + (i+1) + ";" + 
+						Complemento[i] + ";" + CEP[i] + ";" + Celular[i] + "\r\n");
+		}
+		return buffer.toString();
+	}	
+	
 }
+
+

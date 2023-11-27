@@ -55,6 +55,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,6 +70,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,6 +87,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,6 +102,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,6 +117,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,6 +131,7 @@ public class ControleProduto implements ActionListener {
 			hashTable[i] = new ListaEncadeada<Produto>();
 		}
 		try {
+			verificarBaseDados();
 			read();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,7 +231,6 @@ public class ControleProduto implements ActionListener {
 		} else {
 			criarCSV(carrinho);
 		}
- 
 	}
 
 
@@ -423,6 +428,80 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
+	public void verificarBaseDados() throws Exception {
+		File diretorio = new File("C:\\PastaTrabalhoED");
+		File arquivo = new File(diretorio, "Produto.csv");
+		if (!diretorio.exists() || !diretorio.isDirectory()) {
+			diretorio.mkdirs(); 
+		}
+		if(!arquivo.exists() || !arquivo.isFile()) {
+			String conteudo = gerarDadosOriginais();
+			FileWriter fileWriter = new FileWriter(arquivo);
+			PrintWriter print = new PrintWriter(fileWriter);
+			print.write(conteudo);
+			print.flush();
+			print.close();
+			fileWriter.close();
+		}			
+	}
+	
+	private String gerarDadosOriginais() {
+		String[] Nome = {
+			    "SMARTPHONE", "TABLET", "LIVRO DE FICCAO", "NOTEBOOK", "PERFUME MALBEC",
+			    "MAQUINA DE IMPRESSAO", "EQUIPAMENTO DE SOLDAGEM", "MOTOR ELETRICO", "TORNO MECANICO",
+			    "BOMBA HIDRAULICA", "SABONETE", "PILHA", "REFRIGERANTE", "HOT POCKET",
+			    "DETERGENTE", "CHOCOLATE", "QUADROS", "PULSEIRA", "BRINQUEDO", "FONE DE OUVIDO",
+			    "KIT DE PRIMEIRO SOCORROS", "EXTINTORES DE INCENDIO", "LANTERNA", "ALIMENTO ENLATADO",
+			    "COBERTOR TERMICO", "SMART TV", "CARRO", "MAQUINA DE LAVAR ROUPA", "COMPUTADOR",
+			    "CAMERA FOTOGRAFICA", "PIANO", "EQUIPAMENTO DE MERGULHO", "JOIAS", "VINHOS", "JARROS",
+			    "FRUTA", "LEITE", "CARNE", "PAO", "BOLO", "GELADEIRA", "MAQUINA DE LAVAR LOUCA",
+			    "MOVEIS DE MADEIRA", "PARAFUSADEIRA", "BICICLETA", "PAPEL HIGIENICO", "GUARDANAPO",
+			    "LAMPADA", "ISQUEIRO", "SACOLA", "EQUIPAMENTO DE CONSTRUCAO PESADA", "SERVIDORES",
+			    "PLACAS FOTOVOLTAICAS", "EQUIPAMENTO DE FABRICACAO DE SEMI-CONDUTORES", "TICS",
+			    "CAMBIO DE CARRO", "CHAPA DE ACO", "CIRCUITO INTEGRADO", "TECIDO DE FABRICACAO DE ROUPA",
+			    "PARAFUSO", "CONSULTORIA EMPRESARIAL", "SUPPLY CHAIN", "CONTABILIDADE EMPRESARIAL",
+			    "LOGISTICA", "TREINAMENTO CORPORATIVO", "PETROLEO", "MINERIO DE FERRO", "MADEIRA",
+			    "TRIGO", "GAS NATURAL", "PECAS PLASTICAS", "COMPONTENTES ELETRONICOS", "LINGOTES",
+			    "PRODUTOS QUIMICOS", "CELULOSE"
+			};
+		double[] Valor = {
+	            2000.00, 1000.00, 30.00, 3000.00, 150.00, 50000.00, 10000.00, 2500.00, 20000.00, 8000.00,
+	            3.00, 2.00, 5.00, 4.00, 1.00, 15.00, 20.00, 10.00, 40.00, 50.00, 25.00, 50.00, 15.00,
+	            3.00, 10.00, 2500.00, 50000.00, 1200.00, 3000.00, 5000.00, 3500.00, 800.00, 200.00, 150.00,
+	            600.00, 2.50, 4.00, 30.00, 3.00, 10.00, 2000.00, 1500.00, 800.00, 150.00, 1000.00, 3.00,
+	            1.50, 5.00, 1.00, 0.50, 100000.00, 30000.00, 50000.00, 50000.00, 20000.00, 250.00, 5.00,
+	            50.00, 8.00, 1.00, 50000.00, 20000.00, 3000.00, 8000.00, 2500.00, 80.00, 150.00, 20.00,
+	            4.00, 60.00, 2.00, 5.00, 10.00, 8.00, 16.00
+	        };
+		String[] Descricao = {
+			    "CELULARES", "IPADS", "LIVROS SOBRE FICCAO CIENTIFICA", "NOTEBOOK GAMER", "MALBEC GOLD",
+			    "IMPRESSAO DE ROTULOS", "SOLDAGEM MIG", "MOTOR DE ALTA EFICIENCIA ENERGETICA", "PARA PRODUCAO INDUSTRIAL",
+			    "ALTO FLUXO DE BOMBAMENTO", "MARCA REXONA", "PILHA DURACELL", "BEBIDAS PEPSICO", "HAMBURGUERS CONGELADOS",
+			    "DETERGENTE NEUTRO", "CACAU-SHOW", "QUADROS GEEKS", "PULSEIRAS DA AMIZADE", "BRINQUEDOS INFANTIS",
+			    "FONE DE OUVIDO BLUETOOTH", "BANDEIDES E ATADURAS", "PARA CONTROLE DE FOGO", "UTILIZA BATERIAS",
+			    "ALTAS CALORIAS", "PARA CASOS DE EXTREMO FRIO", "ALEXA INTEGRADA", "FORD KA", "SECADORA INCLUSA",
+			    "EXCELENTE PARA ESCRITORIO", "ALTA RESOLUCAO", "PARA PROFISSIONAIS", "SNORKEL", "OURO E PRATA",
+			    "CHILENOS E FRANCESES", "FEITOS DE BARRO", "FRUTAS FRESCAS", "LEITE DESNATADO", "CARNE BOVINA",
+			    "PAO FRANCES", "BOLO DE CHOCOLATE", "BRASTEMP", "SECADORA INCLUSA", "MADEIRA MACICA",
+			    "VARIOS TIPOS DE PARAFUSO", "BICICLETA COM MARCHA", "FOLHA DUPLA", "GUARDANAPO DE PAPEL",
+			    "LAMPADA INCADESCENTE", "ISQUEIRO BIC", "SACOLA DE PLASTICO", "PARA CONSTRUCAO DE GRANDES OBRAS",
+			    "SERVIDORES DE NAS", "PAINEL SOLAR", "SILICIO E GERMANIO", "TECNOLOGIAS DA INFORMACAO E DA COMUNICACAO",
+			    "CAMBIO MANUAL", "5 MM DE ESPESSURA", "CIS PARA PLACAS DE MICROELETRONICOS", "TECIDO DE LA",
+			    "PARAFUSO INDUSTRIAIS", "SERVICOS DE CONSULTORIA EMPRESARIAL", "SISTEMA DE CADEIA DE SUPRIMENTOS",
+			    "SISTEMA DE CONTABILIDADE EMPRESARIAL", "SERVICOS DE LOGISTICA", "SERVICOS DE TREINAMENTO CORPORATIVO",
+			    "BARRIL DE PETROLEO BRUTO", "BAUXITA", "EUCALIPTO", "PARA CEVADA", "UTILIZADO EM TERMO-ELETRICAS",
+			    "FEITAS POR INJECAO", "PARA GADGETS", "PECAS METALICAS", "PARA PRODUCAO INDUSTRIAL", "PAPEL"
+			};
+		StringBuffer buffer = new StringBuffer();
+		for(int indice = 0; indice < 15; indice++) {
+			for(int id = 0; id < 5; id++) {
+				buffer.append(id + ";" + Nome[(indice*5+id)] + ";" + Valor[(indice*5+id)] + ";" + 
+							Descricao[(indice*5+id)] + ";" + "10" + ";" + indice + "\r\n");
+			}
+		}
+		return buffer.toString();
+	}
+
 	// Remove todos os produtos de um tipo específico.
 	public void excluiTipo(int hash) throws Exception {
 		ListaEncadeada<Produto> lista = hashTable[hash];
@@ -454,7 +533,6 @@ public class ControleProduto implements ActionListener {
 				}
 			}
 			conteudo = (buffer.toString() + "\r\n");
-			System.out.println(size);
 		}
 		// }
 		return conteudo;

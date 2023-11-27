@@ -16,10 +16,13 @@ import javax.swing.border.LineBorder;
 
 import br.edu.fatec.zl.stack.Stack;
 import br.edu.fateczl.fila.Fila;
+import controller.ControleClientePF;
+import controller.ControleClientePJ;
 import controller.ControleProduto;
-
+import controller.TipoProdutoController;
 import model.ListaEncadeada;
 import model_main.Produto;
+import model_main.TipoProduto;
 
 public class TelaInicial extends BaseFrame {
 
@@ -35,9 +38,19 @@ public class TelaInicial extends BaseFrame {
 					TelaInicial frame = new TelaInicial();
 					frame.setVisible(true);
 					frame.setResizable(false);
+					BaseDados();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+
+			private void BaseDados() throws Exception {
+				ControleClientePF cpf = new ControleClientePF();
+				ControleClientePJ cnpj = new ControleClientePJ();
+				ControleProduto pdt = new ControleProduto();
+				cpf.verificarBaseDados();
+				cnpj.verificarBaseDados();
+				pdt.verificarBaseDados();
 			}
 		});
 	}
