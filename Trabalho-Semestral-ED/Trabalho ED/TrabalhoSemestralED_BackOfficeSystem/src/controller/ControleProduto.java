@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.Normalizer;
@@ -29,7 +31,6 @@ public class ControleProduto implements ActionListener {
 	ListaEncadeada<Produto> carrinho = new ListaEncadeada<Produto>();
 	private TipoProduto Tp;
 	Fila<Produto> fila = new Fila<Produto>();
-	Stack<Produto> pilha = new Stack<Produto>();
 
 	private JTextField textFieldProdId;
 	private JTextField textFieldNome;
@@ -37,7 +38,8 @@ public class ControleProduto implements ActionListener {
 	private JTextArea textFieldDesc;
 	private JTextField textFieldQntdEstoque;
 	private JTextField textFieldTipo;
-	private JTextArea textAreaCheckOut;
+	private JTextArea textAreaCarrinho;
+	private JTextField textFieldIndiceProduto;
 
 	public ControleProduto(JTextField TextFieldProdId, JTextField TextFieldNome, JTextField TextFieldValor,
 			JTextArea TextFieldDesc, JTextField TextFieldQntdEstoque, JTextField TextFieldTipo) {
@@ -73,10 +75,11 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
-	public ControleProduto(JTextField TextFieldProdId, JTextField textFieldTipo) {
+	public ControleProduto(JTextField TextFieldProdId, JTextField TextFieldTipo, JTextField TextFieldIndiceProduto) {
 		this.textFieldProdId = TextFieldProdId;
-		this.textFieldTipo = textFieldTipo;
-
+		this.textFieldTipo = TextFieldTipo;
+		this.textFieldIndiceProduto = TextFieldIndiceProduto;
+ 
 		int tamanho = hashTable.length;
 		for (int i = 0; i < tamanho; i++) {
 			hashTable[i] = new ListaEncadeada<Produto>();
@@ -116,8 +119,8 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 
-	public ControleProduto(JTextArea TextAreaCheckOut) {
-		this.textAreaCheckOut = TextAreaCheckOut;
+	public ControleProduto(JTextArea textAreaCarrinho) {
+		this.textAreaCarrinho = textAreaCarrinho;
 		int tamanho = hashTable.length;
 		for (int i = 0; i < tamanho; i++) {
 			hashTable[i] = new ListaEncadeada<Produto>();
@@ -129,22 +132,6 @@ public class ControleProduto implements ActionListener {
 		}
 	}
 	
-	public ControleProduto(ListaEncadeada<Produto>Lista, Fila<Produto>Fila, Stack<Produto>Stack) {
-		this.carrinho = Lista;
-		this.fila = Fila;
-		this.pilha = Stack;
-		
-		int tamanho = hashTable.length;
-		for (int i = 0; i < tamanho; i++) {
-			hashTable[i] = new ListaEncadeada<Produto>();
-		}
-		try {
-			read();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	// Opções de botão para ativar o sistema.
 	public void actionPerformed(ActionEvent e) {
@@ -159,61 +146,90 @@ public class ControleProduto implements ActionListener {
 			if (botaoSelec.equals("Excluir")) {
 				excluir();
 			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-
-	}
-
-	public ListaEncadeada<Produto> actionPerformed1(ActionEvent e, ListaEncadeada<Produto> Lista, Fila<Produto>Fila, Stack<Produto>Pilha) {
-		String botaoSelec = e.getActionCommand();
-		try {
+ 
+			/* Operacoes de carrinho */
 			if (botaoSelec.equals("Adicionar no carrinho")) {
-				Lista = addcarinho();
-				return Lista;
+				addcarinho();
+ 
 			}
 			if (botaoSelec.equals("Remover")) {
-				Lista = removeCarrinho();
-				return Lista;
+				removeCarrinho();
 			}
 			if (botaoSelec.equals("CARRINHO")) {
-				Fila = checkout();
-				return Lista;
+//				Fila = checkout();
+//				return Lista;
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		return Lista;
+ 
 	}
-
+ 
+	private void criarCSV(ListaEncadeada<Produto> carrinho) {
+		try {
+			File dir = new File("C:\\PastaTrabalhoED");
+			File arquivo = new File(dir , "CarrinhoDeCompras.csv");
+			if (dir.exists() && dir.isDirectory()) {// existe e é um diretório?
+				boolean exist = false;// padrão nn existe
+				if (arquivo.exists()) {// Arquivo existe?
+					exist = true;// chumba que existe
+				}
+ 
+				FileWriter filewriter = new FileWriter(arquivo, false);
+				PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
+ 
+				for (int i = 0; i < carrinho.size(); i++) {
+					print.write(carrinho.getValue(i).toString() + "\r\n");
+				}
+ 
+				print.flush();// termina a escrita
+				print.close();
+				filewriter.close();
+ 
+			} else {
+				throw new IOException("Diretório Inválido");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Abre arquivo
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+ 
 	// Adiciona o produto ao carrinho caso ele exista e tenha um número em estoque
 	// igual ou superior a quantidade solicitada.
-	private ListaEncadeada<Produto> addcarinho() throws Exception {
+	private void addcarinho() throws Exception {
 		int id = Integer.parseInt(textFieldProdId.getText());
 		int hash = hash(normalizarTipoProduto(textFieldTipo.getText()));
 		ListaEncadeada<Produto> lista = hashTable[hash];
-		Stack<Produto>pilha = new Stack<Produto>();
 		int size = lista.size();
 		Produto p;
 		boolean teste = false;
 		for (int i = 0; i < size; i++) {
 			p = lista.getValue(i);
 			if (p.prodId == id) {
-				if (p.qntdEstoque >= 1) {
-					p.qntdEstoque = 1;
+				if (lista.getValue(i).qntdEstoque >= 1) {
 					carrinho.addFirst(p);
 					lista.getValue(i).qntdEstoque -= 1;
 					teste = true;
 				} else {
-					JOptionPane.showMessageDialog(null, "NAO HA QUANTIDADE SUFICENTE EM ESTOQUE.");
+					JOptionPane.showMessageDialog(null, "NÃO HA QUANTIDADE SUFICENTE EM ESTOQUE.");
 				}
 			}
 		}
 		if (teste == false) {
-			JOptionPane.showMessageDialog(null, "PRODUTO NAO ENCONTRADO.");
+			JOptionPane.showMessageDialog(null, "PRODUTO NÃO ENCONTRADO.");
+		} else {
+			criarCSV(carrinho);
 		}
-		return carrinho;
+ 
 	}
+
+
+
 
 	// Verifica e mostra ao usuário os produtos do carrinho.
 	private Fila<Produto> checkout() throws Exception {
@@ -224,33 +240,53 @@ public class ControleProduto implements ActionListener {
 		return fila;
 	}
 
-	// Remove os produtos do carrinho e atualiza o estoque.
-	private ListaEncadeada<Produto> removeCarrinho() throws Exception {
-		int prodId = Integer.parseInt(textFieldProdId.getText());
-		int tamanho = carrinho.size();
+	private void removeCarrinho() throws Exception {
+		int id = Integer.parseInt(textFieldIndiceProduto.getText());
+		File dir = new File("C:\\PastaTrabalhoED");
+		File arq = new File(dir, "CarrinhoDeCompras.csv");
+		ListaEncadeada<Produto> Carrinho = new ListaEncadeada<Produto>();
 		Produto p;
-		boolean teste = false;
-		for (int i = 0; i < tamanho; i++) {
-			p = carrinho.getValue(i);
-			if (p.prodId == prodId) {
-				carrinho.remove(i);
-				ListaEncadeada<Produto> lista = hashTable[p.indice];
-				int size = lista.size();
-				for (int c = 0; i < size; i++) {
-					if (lista.getValue(c).prodId == prodId) {
-						lista.getValue(c).qntdEstoque += p.qntdEstoque;
-						c = size;
-						teste = true;
-					}
+		if (dir.exists() && dir.isDirectory()) {
+			if (arq.exists() && arq.isFile()) {
+				FileInputStream flux = new FileInputStream(arq);
+				InputStreamReader reader = new InputStreamReader(flux);
+				BufferedReader buffer = new BufferedReader(reader);
+				String linha = buffer.readLine();
+				while (linha != null) {
+					String[] vet = linha.split(";");
+					p = new Produto(Integer.parseInt(vet[0]), vet[1], Double.parseDouble(vet[2]), vet[3],
+							Integer.parseInt(vet[4]), 0);
+					Carrinho.addFirst(p);
+					linha = buffer.readLine();
 				}
-				i = tamanho;
+				buffer.close();
+				reader.close();
+				flux.close();
 			}
 		}
-		if (teste == false) {
-			JOptionPane.showMessageDialog(null, "PRODUTO NAO ENCONTRADO.");
+		int size = Carrinho.size();
+		for (int i = 0; i < size; i++) {
+			if (Carrinho.getValue(i).prodId == id) {
+				Carrinho.remove(i);
+				i = size;
+			}
 		}
-		write();
-		return carrinho;
+		size = Carrinho.size();
+		StringBuffer buffer = new StringBuffer();
+			int tamanho = Carrinho.size();
+			int i = 0;
+			while (i < tamanho) {
+				p = Carrinho.getValue(i);
+				buffer.append(p.toString() + "\r\n");
+				i = i + 1;
+			}
+		String thing = buffer.toString();
+		FileWriter fileWriter = new FileWriter(arq);
+		PrintWriter print = new PrintWriter(fileWriter);
+		print.write(thing);
+		print.flush();
+		print.close();
+		fileWriter.close();
 	}
 
 	// Adiciona o produto a hash.
@@ -469,5 +505,64 @@ public class ControleProduto implements ActionListener {
 			}
 		}
 		return teste;
+	}
+	
+	//***************************************************************************************************
+	//Método que exibe o carrinho de compras na tela
+	//***************************************************************************************************
+	public void exibirCarrinho() throws Exception {
+		Stack<Produto> carrinho = new Stack<Produto>();
+		StringBuffer buffer = new StringBuffer();
+		carrinho = lerCSV(carrinho);
+		if(carrinho.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O carrinho de compras esta vazio.", "Carrinho vazio",
+											JOptionPane.PLAIN_MESSAGE);
+		} else {
+			carrinho = inverterPilha(carrinho);
+			while(!carrinho.isEmpty()) {
+				Produto produto = carrinho.pop();
+				buffer.append("#" + produto.prodId + "\t" + produto.nome + "\t$" + produto.valor + "\r\n");
+			}
+			String conteudo = buffer.toString();
+			textAreaCarrinho.setText(conteudo);
+		}
+	}
+	
+
+	//***************************************************************************************************
+	//Método que lê o arquivo CSV e transfere o conteúdo para uma pilha
+	//***************************************************************************************************
+	private Stack lerCSV(Stack<Produto> carrinho) throws Exception {
+		File arquivo = new File("C:\\PastaTrabalhoED", "CarrinhoDeCompras.csv");
+		if(arquivo.exists() && arquivo.isFile()) {
+			FileInputStream fluxo = new FileInputStream(arquivo);
+			InputStreamReader leitor = new InputStreamReader(fluxo);
+			BufferedReader buffer = new BufferedReader(leitor);
+			String linha = buffer.readLine();
+			while(linha != null) {	
+				String[] conteudo = linha.split(";");
+				Produto produto = new Produto(Integer.parseInt(conteudo[0]), conteudo[1], Double.parseDouble(conteudo[2]), null, 0, 0);
+				carrinho.push(produto);
+				linha = buffer.readLine();
+			}
+			buffer.close();
+			leitor.close();
+			fluxo.close();
+		} else {	
+			JOptionPane.showMessageDialog(null, "Nao foi possivel encontrar a base de dados do sistema", 
+												"Erro na busca do arquivo CSV", JOptionPane.ERROR_MESSAGE);
+		}	
+		return carrinho;
+	}
+	
+	//***************************************************************************************************
+	//Método que inverte a pilha carrinho para exibição em ordem
+	//***************************************************************************************************
+	private Stack inverterPilha(Stack<Produto> carrinho) throws Exception {
+		Stack<Produto> pilhaAuxiliar = new Stack<Produto>();
+		while(!carrinho.isEmpty()) {
+			pilhaAuxiliar.push(carrinho.pop());
+		}
+		return pilhaAuxiliar;
 	}
 }

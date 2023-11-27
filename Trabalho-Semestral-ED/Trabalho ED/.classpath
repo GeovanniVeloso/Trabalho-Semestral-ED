@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="TrabalhoSemestralED_BackOfficeSystem/src"/>
 	<classpathentry kind="lib" path="TrabalhoSemestralED_BackOfficeSystem/lib/BibliotecaListaGenerica.jar"/>
+	<classpathentry kind="lib" path="TrabalhoSemestralED_BackOfficeSystem/lib/Fila.jar"/>
+	<classpathentry kind="lib" path="TrabalhoSemestralED_BackOfficeSystem/lib/genericStack.jar"/>
 	<classpathentry kind="output" path="TrabalhoSemestralED_BackOfficeSystem/bin"/>
 </classpath>

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControleProduto;
 import model.ListaEncadeada;
 import model_main.Produto;
 
@@ -51,15 +53,14 @@ public class Carrinho extends BaseFrame {
         contentPane.add(scrollPane);
         
         //*Preenche Carrinho*//
-        JTextArea textAreaCheckOut = new JTextArea();
-        textAreaCheckOut.setToolTipText("OS SEUS ITENS QUE FORAM ADICIONADOS NO CARRINHO SÃO :");
-        scrollPane.setViewportView(textAreaCheckOut);
-        textAreaCheckOut.setEditable(false);
+        JTextArea textAreaCarrinho = new JTextArea();
+        textAreaCarrinho.setToolTipText("OS SEUS ITENS QUE FORAM ADICIONADOS NO CARRINHO SÃO :");
+        scrollPane.setViewportView(textAreaCarrinho);
+        textAreaCarrinho.setEditable(false);
         
-        String listaDeCompras = pegaListaDeCompras(produtosCarrinho);
-//        String listaDeCompras = pegaListaDeCompras(tsLista(produtosCarrinho)); //Linha para teste
-        textAreaCheckOut.setText(listaDeCompras);
-
+        ControleProduto methodsProduto = new ControleProduto(textAreaCarrinho);
+        methodsProduto.exibirCarrinho();;
+        
         JButton btnCarrinhoFinalizar = new JButton("Finalizar");
         btnCarrinhoFinalizar.setBackground(new Color(255, 160, 122));
         btnCarrinhoFinalizar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -106,7 +107,10 @@ public class Carrinho extends BaseFrame {
                 // Torna a tela inicial visível
             	TelaInicial telaInicial = new TelaInicial();
                 telaInicial.setVisible(true);
-
+                //Destrói carrinho
+    			File dir = new File("C:\\PastaTrabalhoED");
+    			File arquivo = new File(dir , "CarrinhoDeCompras.csv");
+    			arquivo.delete();
                 // Fecha o frame atual
                 dispose();
             }

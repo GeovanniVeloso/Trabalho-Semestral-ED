@@ -184,16 +184,14 @@ public class TelaInicial extends BaseFrame {
 		// ActionListener para o botão CARRINHO
 
 		ListaEncadeada<Produto> produtosCarrinho = new ListaEncadeada<>();
-		Fila<Produto>filaCarrinho = new Fila<Produto>();
-		Stack<Produto>pilhaCarrinho = new Stack<Produto>();
 		btnCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					//Se for Trocar o Controller alterar aqui
-					ControleProduto cp = new ControleProduto(produtosCarrinho, filaCarrinho, pilhaCarrinho);
+					ControleProduto cp = new ControleProduto();
 					Carrinho CarrinhojFrame = new Carrinho(null, produtosCarrinho);
 					CarrinhojFrame.setVisible(true);
-					cp.actionPerformed1(e, produtosCarrinho, filaCarrinho, pilhaCarrinho);
+					cp.actionPerformed(e);
 					// Fecha o frame atual, se necessário
 					setVisible(false);
 					dispose();
@@ -272,6 +270,18 @@ public class TelaInicial extends BaseFrame {
 
 			}
 		});
+		
+		btnProdutoExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExcluiProduto excProdutojFrame = new ExcluiProduto();
+				excProdutojFrame.setVisible(true);
+
+				// Fecha o frame atual, se necessário
+				setVisible(false);
+				dispose();
+			}
+		});
+		
 		// ActionListener para o botão CONSULTA do TIPO DO PRODUTO
 		btnTipoProdutoConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -289,16 +299,6 @@ public class TelaInicial extends BaseFrame {
 			public void actionPerformed(ActionEvent e) {
 				ExcluiTipoDeProduto excTipoProdutojFrame = new ExcluiTipoDeProduto();
 				excTipoProdutojFrame.setVisible(true);
-
-				// Fecha o frame atual, se necessário
-				setVisible(false);
-				dispose();
-			}
-		});
-		btnProdutoExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ExcluiProduto excProdutojFrame = new ExcluiProduto();
-				excProdutojFrame.setVisible(true);
 
 				// Fecha o frame atual, se necessário
 				setVisible(false);

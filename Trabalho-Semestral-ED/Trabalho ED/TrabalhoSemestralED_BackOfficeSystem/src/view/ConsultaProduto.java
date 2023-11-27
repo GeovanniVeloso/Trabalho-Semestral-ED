@@ -89,7 +89,7 @@ public class ConsultaProduto extends JFrame {
 		contentPane.add(textFieldTipoProduto);
 		textFieldTipoProduto.setColumns(10);
  
-		ControleProduto cp = new ControleProduto(textFieldID, textFieldTipoProduto);
+		ControleProduto cp = new ControleProduto(textFieldID, textFieldTipoProduto, textFieldID);
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
  
@@ -112,7 +112,7 @@ public class ConsultaProduto extends JFrame {
 		btnAdicionarCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Cria uma instância da tela inicial (classe ED) e a torna visível
-				cp1.actionPerformed1(e, Lista, null, null);
+				cp1.actionPerformed(e);
 				JOptionPane.showMessageDialog(null, "Adicionado no carrinho com Sucesso", "Sucesso!",
 						JOptionPane.PLAIN_MESSAGE);
 			}

@@ -31,10 +31,10 @@ public class RemoverCarrinho extends BaseFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	/**
-	 * Create the frame.
-	 public Carrinho(TelaInicial telaInicial) { */
+	 * Create the frame. public Carrinho(TelaInicial telaInicial) {
+	 */
 	public RemoverCarrinho() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,13 +77,11 @@ public class RemoverCarrinho extends BaseFrame {
 		btnRemoveRemoverCarrinho.setBounds(549, 287, 115, 23);
 		contentPane.add(btnRemoveRemoverCarrinho);
 
-		ControleProduto cp = new ControleProduto(textFieldIndiceProduto);
+		ControleProduto cp = new ControleProduto(null, null, textFieldIndiceProduto);
 		btnRemoveRemoverCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textFieldIndiceProduto.getText().isEmpty()) {
-
 					JOptionPane.showMessageDialog(null, "Campos não preenchidos", "Erro", JOptionPane.ERROR_MESSAGE);
-
 				} else {
 					cp.actionPerformed(e);
 					JOptionPane.showMessageDialog(null, "Consulta Realizado com Sucesso", "Sucesso!",
@@ -110,6 +108,7 @@ public class RemoverCarrinho extends BaseFrame {
 			}
 		});
 	}
+
 	private JTextField createNumericTextField() {
 		JTextField textField = new JTextField();
 

@@ -104,7 +104,7 @@ public class ExcluiProduto extends BaseFrame {
            }
        });
  
-	   ControleProduto cp = new ControleProduto(textFieldExcluirProduto, textFieldTipoProduto);
+	   ControleProduto cp = new ControleProduto(textFieldExcluirProduto, textFieldTipoProduto, textFieldExcluirProduto);
 	   btnExcluir.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
            	if(textFieldExcluirProduto.getText().isEmpty()) {
