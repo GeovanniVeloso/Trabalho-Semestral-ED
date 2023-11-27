@@ -175,7 +175,7 @@ public class ControleProduto implements ActionListener {
 					exist = true;// chumba que existe
 				}
  
-				FileWriter filewriter = new FileWriter(arquivo, false);
+				FileWriter filewriter = new FileWriter(arquivo, exist);
 				PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
  
 				for (int i = 0; i < carrinho.size(); i++) {

@@ -239,8 +239,10 @@ public class TelaInicial extends BaseFrame {
 		});
 		btnClienteCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Checkout CheckoutjFrame = new Checkout();
-				CheckoutjFrame.setVisible(true);
+				
+				//////TODO:AMOS VAI MUDAR
+//				Checkout CheckoutjFrame = new Checkout();
+//				CheckoutjFrame.setVisible(true);
 
 				// Fecha o frame atual, se necessário
 				setVisible(false);
