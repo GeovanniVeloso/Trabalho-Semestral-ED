@@ -4,18 +4,18 @@ public class Compra {
 
 	public int id;
 	public String cliente;
-	public double valorTotal;
 	public String itens;
+	public double valorTotal;
 
 	public Compra() {
 		super();
 	}
 
-	public Compra(int id, String cliente, double valorTotal, String itens) {
+	public Compra(int id, String cliente, String itens, double valorTotal) {
 		this.id = id;
 		this.cliente = cliente;
-		this.valorTotal = valorTotal;
 		this.itens = itens;
+		this.valorTotal = valorTotal;
 	}
 
 	public String toString() {

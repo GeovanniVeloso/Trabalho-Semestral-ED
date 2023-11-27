@@ -32,7 +32,10 @@ public class ControleCompra {
 	private JTextField textFieldIDdeCompra;
 	private JTextArea textAreaResultadoConsultaHistorico;
 	private File diretorio = new File("C:\\PastaTrabalhoED");
-	File arquivo = new File(diretorio, "HistoricoCompras.csv");
+	private File arquivo = new File(diretorio, "HistoricoCompras.csv");
+	private String nomeCliente;
+	private String totalCompra;
+	private String itens;
 	
 	public ControleCompra(JTextField textField, boolean flagPessoa, ListaEncadeada<Produto> produtosCarrinho) {
 		this.textFieldCadastroPessoa = textField;
@@ -48,6 +51,12 @@ public class ControleCompra {
 		this.textAreaResultadoConsultaHistorico = textAreaResultadoConsultaHistorico;
 	}
 
+	public ControleCompra(String nomeCliente, String totalCompra, String itens) {
+		this.nomeCliente = nomeCliente;
+		this.totalCompra = totalCompra;
+		this.itens = itens;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		String botaoSelec = e.getActionCommand();
 		try {
@@ -58,7 +67,7 @@ public class ControleCompra {
 				exibirHistorico();
 			}
 			if (botaoSelec.equals("Finalizar Compra")) {
-				
+				criarHistorico();
 			}
 		} catch (Exception erro) {
 			erro.printStackTrace();
@@ -66,33 +75,25 @@ public class ControleCompra {
 	}
 
 	private void criarHistorico() throws Exception {
-		criarCSVHistorico();
-		preencherCSVHistorico();
-		
+		if (diretorio.exists() && diretorio.isDirectory()) {// existe e é um diretório?
+		    boolean exist = false;// padrão nn existe
+		    if (arquivo.exists()) {// Arquivo existe?
+		       exist = true;// chumba que existe
+		    }
+		    int id = gerarId();
+		    String content = id + ";" +nomeCliente+ ";" +itens+ ";"+ totalCompra;
+		    System.out.println(content);
+		    FileWriter filewriter = new FileWriter(arquivo, exist);// Abre arquivo
+		    PrintWriter print = new PrintWriter(filewriter);// instancia a classe que escreve o conteúdo
+		    print.write(content);// escreve o conteúdo
+		    print.flush();// termina a escrita
+		    print.close();
+		    filewriter.close();
+		} else {
+			throw new IOException("Diretório Inválido");
+		}	
 	}
 
-	private void criarCSVHistorico() throws Exception {
-		if (!diretorio.exists() || !diretorio.isDirectory()) {
-			diretorio.mkdirs(); 
-		}
-		if(!arquivo.exists() || !arquivo.isFile()) {
-			arquivo.createNewFile();
-		}	
-	}
-	
-	private void preencherCSVHistorico() {
-		if(!arquivo.exists() || !arquivo.isFile()) {
-			StringBuffer buffer = new StringBuffer();
-			
-			FileWriter fileWriter = new FileWriter(arquivo);
-			PrintWriter print = new PrintWriter(fileWriter);
-			print.write(conteudo);
-			print.flush();
-			print.close();
-			fileWriter.close();
-		}	
-	}
-	
 	private void exibirHistorico() throws Exception {
 		Compra compraProcurada = new Compra();
 		compraProcurada.id = Integer.parseInt(textFieldIDdeCompra.getText());
@@ -124,7 +125,7 @@ public class ControleCompra {
 			String linha = buffer.readLine();
 			while(linha != null) {	
 				String[] conteudo = linha.split(";");
-				Compra compra = new Compra(Integer.parseInt(conteudo[0]), conteudo[1], Double.parseDouble(conteudo[2]), conteudo[3]);
+				Compra compra = new Compra(Integer.parseInt(conteudo[0]), conteudo[1], conteudo[2], Double.parseDouble(conteudo[3]));
 				historico.addLast(compra);
 				linha = buffer.readLine();
 			}

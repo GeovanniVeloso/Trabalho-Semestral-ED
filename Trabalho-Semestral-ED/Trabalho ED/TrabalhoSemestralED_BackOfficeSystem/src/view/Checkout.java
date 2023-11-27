@@ -5,20 +5,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControleCompra;
 import model.ListaEncadeada;
 import model_main.Produto;
 
@@ -133,9 +129,9 @@ public class Checkout extends BaseFrame {
 		btnFinalizarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
-					historicoCompra(produtosCarrinho, nomeCliente);
-					
+					String itens = transformaLista(produtosCarrinho);
+					ControleCompra opCC = new ControleCompra(nomeCliente, totalCompra, itens);
+					opCC.actionPerformed(e);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -153,18 +149,16 @@ public class Checkout extends BaseFrame {
 
 	}
 
-	private String historicoCompra(ListaEncadeada<Produto> carrinho, String nomeCliente) throws Exception {
-
-		StringBuffer buffer = new StringBuffer();
-		int tamanho = carrinho.size();
-		
-		for (int i = 0; i < tamanho; i++) {
-			Produto produto = carrinho.getValue(i);
-			buffer.append(nomeCliente + ";" + produto.prodId + ";" + produto.nome + ";"	+ produto.valor + "\r\n");
-		}
-		String conteudo = buffer.toString();
-		return conteudo;
-	}
+//	private String historicoCompra(ListaEncadeada<Produto> carrinho, String nomeCliente) throws Exception {
+//
+//		StringBuffer buffer = new StringBuffer();
+//		int tamanho = carrinho.size();
+//		for (int i = 0; i < tamanho; i++) {
+//			buffer.append(nomeCliente + ";" + produto.prodId + ";" + produto.nome + ";"	+ produto.valor + "\r\n");
+//		}
+//		String conteudo = buffer.toString();
+//		return conteudo;
+//	}
 
 	private String transformaListaParaString(ListaEncadeada<Produto> carrinho) throws Exception {
 		StringBuffer buffer = new StringBuffer();
@@ -172,6 +166,18 @@ public class Checkout extends BaseFrame {
 		for (int i = 0; i < tamanho; i++) {
 			Produto produto = carrinho.getValue(i);
 			buffer.append("#" + produto.prodId + "     " + produto.nome + "     $" + produto.valor + "\r\n");
+		}
+		String conteudo = buffer.toString();
+		return conteudo;
+
+	}
+	
+	private String transformaLista(ListaEncadeada<Produto> carrinho) throws Exception {
+		StringBuffer buffer = new StringBuffer();
+		int tamanho = carrinho.size();
+		for (int i = 0; i < tamanho; i++) {
+			Produto produto = carrinho.getValue(i);
+			buffer.append("#" + produto.prodId + "     " + produto.nome + "     $" + produto.valor);
 		}
 		String conteudo = buffer.toString();
 		return conteudo;
